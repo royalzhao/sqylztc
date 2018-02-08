@@ -1,0 +1,57 @@
+body{
+    font-size: 16px;
+    font-size: 1rem;
+    background: #FAFAFA;
+}
+
+.el-input__inner, .el-checkbox__inner{
+    border-radius: 18px;
+}
+.addPersonContent .el-input__inner{
+    border-radius: 5px;
+}
+.header .header-content .search-box .el-input__inner{
+    background: transparent;
+    border: 0;
+    color: #444;
+    height: 34px;
+    margin-top: 7px;
+    transition: all 0.45s;
+    color: #fff;
+}
+.header .header-content .search-box:hover .el-input__inner{
+    background: rgba(255, 255, 255, 0.3);
+}
+.header .header-content .search-box .el-input__inner::placeholder{
+    color: #cef6d4;
+}
+.header .header-content .search-box .el-input__prefix,.header .header-content .search-box .el-input__suffix{
+    color: #cef6d4;
+}
+.header .header-content .search-box .el-input__prefix,.header .header-content .search-box .el-input__suffix{
+    top:4px;
+}
+.el-tabs__item.is-active{
+    color: #32BA58;
+}
+.el-tabs__active-bar{
+    background-color: #32BA58;
+}
+.el-tabs__item:hover{
+    color: #32BA58;
+}
+.el-menu-item.is-active{
+    color: #32BA58;
+}
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+    background-color:rgba(50, 186, 88, 0.1);
+    color: #32BA58;
+
+}
+.el-dropdown-menu__item a{
+    color: #666;
+    text-decoration: none;
+}
+.el-dropdown-menu__item a:hover{
+    color: #32BA58;
+}
