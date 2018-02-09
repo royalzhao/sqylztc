@@ -6,7 +6,6 @@
                 <v-sidebar></v-sidebar>
             </div>
             <div class="right" id="layout">
-                
                 <transition name="move" class="box" mode="out-in"><router-view></router-view></transition>
             </div>
             
@@ -50,6 +49,7 @@
         margin: 0px auto;
         display: flex;
         justify-content: space-between;
+        
     }
     .content .left{
         float: left;

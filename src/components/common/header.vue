@@ -119,6 +119,9 @@
     }
 </script>
 <style scoped>
+.hidden-sm-and-up{
+    cursor: pointer;
+}
 .header{
     width:100%;
     background: #32BA58;

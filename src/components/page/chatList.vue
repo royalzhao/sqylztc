@@ -44,7 +44,11 @@ export default {
         }
     },
     methods:{
-        
+        chatDetail(id) {
+            if(id !== undefined) {
+                this.$router.push({path:'chatContent',query:{id:id}});
+            }
+        }
     }
 
 }

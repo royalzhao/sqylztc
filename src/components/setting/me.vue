@@ -127,5 +127,6 @@ export default {
     .change{
         font-size: 0.7rem;
         color:#32BA58;
+        cursor: pointer;
     }
 </style>

@@ -17,6 +17,8 @@ import me from '@/components/setting/me'
 import del from '@/components/setting/del'
 import consult from '@/components/page/consult'
 import order from '@/components/page/order'
+import article from '@/components/page/article'
+import chatContent from '@/components/page/chatContent'
 
 
 Vue.use(Router)
@@ -58,6 +60,14 @@ const routes =  [
         {
           path:'/order',
           component:order
+        },
+        {
+          path:'/article',
+          component:article
+        },
+        {
+          path:'/chatContent',
+          component:chatContent
         },
        ]
     },{

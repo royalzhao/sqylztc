@@ -3,7 +3,7 @@
         <el-tabs v-model="activeName">
             <el-tab-pane label="健康头条" name="first">
                 <div class="article_wrap" v-for="item in toutiaoList">
-                    <div class="acticle" @click="articleDetail(item._id)">
+                    <div class="acticle" @click="articleDetail(item.id)">
                         <div class="acticle_img">
                             <img :src="item.img" alt="健康头条图片">
                         </div>
@@ -23,9 +23,9 @@
             </el-tab-pane>
             <el-tab-pane label="医疗知识" name="second">
                 <div class="article_wrap" v-for="item in zhishiList">
-                    <div class="acticle" @click="articleDetail(item._id)">
+                    <div class="acticle" @click="articleDetail(item.id)">
                         <div class="acticle_img">
-                            <img :src="item.img" alt="健康头条图片">
+                            <img :src="item.img" alt="医疗知识图片">
                         </div>
                         <div class="acticle_content">
                             <h3>{{item.title}}</h3>
@@ -140,8 +140,10 @@
             };
         },
         methods: {
-            articleDetail:function(id) {
-                console.log(id);
+            articleDetail(id) {
+                if(id !== undefined) {
+                    this.$router.push({path:'article',query:{id:id}});
+                }
             }
         }
     }
@@ -149,6 +151,7 @@
 <style scoped>
 .article_wrap .acticle{
     display: flex;
+    cursor: pointer;
 }
 .article_wrap .acticle .acticle_img{
     flex-grow: 1;

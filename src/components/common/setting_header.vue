@@ -2,7 +2,18 @@
     <div class="header">
         <div class="header-content">
             <div class="title">
-                设置
+                <div class="hidden-xs-only">
+                    设置
+                </div>
+                
+                <div class="hidden-sm-and-up">
+                    <div v-if="show">
+                        <i class="el-icon-close" @click="dll"></i>
+                    </div>
+                    <div v-else>
+                        <i class="iconfont icon-caidan" @click="dll"></i>
+                    </div>
+                </div>
             </div>
             <div class="close" @click="close">
                 <i class="el-icon-close"></i>
@@ -13,12 +24,22 @@
     </div>
 </template>
 <script>
+    import store from '../vuex/store'
     export default {
         data() {
             return {
                 name: 'header',
                 searchValue:'',
-                face:'../../../static/img/user.jpg'
+                face:'../../../static/img/user.jpg',
+                show:false
+            }
+        },
+        methods:{
+            
+        },
+        computed:{
+            myValue() {
+                return this.$store.state.show
             }
         },
         methods:{
@@ -27,11 +48,37 @@
             },
             close(){
                 this.$router.push("/");
+            },
+            
+            dll(){
+                if(store.state.show){
+                    store.commit('hide');
+                    this.show = false
+                }else{
+                    store.commit('show');
+                    this.show = true
+                }
+                
+            },
+            
+        },
+        store,
+        watch: {
+            myValue: function(newVal) {
+                
+                if(store.state.show){
+                    this.show = true
+                }else{
+                    this.show = false
+                }
             }
         }
     }
 </script>
 <style scoped>
+.hidden-sm-and-up{
+    cursor: pointer;
+}
 .header{
     width:100%;
     background: #fff;
