@@ -106,13 +106,16 @@
     export default {
         data(){
             return{
-                d_name:'张三',
-                d_technicalTitle:'全科医生',
-                d_committee:'五湖居委',
-                d_tel:'17887878787',
-                d_patientNum:'787',
-                d_abstract:'如果你无法简洁的表达你的想法，那只说明你还不够了解它。',
-                d_face:'../../../static/img/doctor.jpg'
+                d_name:'',
+                d_technicalTitle:'',
+                d_committee:'',
+                d_tel:'',
+                d_patientNum:'',
+                d_abstract:'',
+                d_face:'',
+                info:{
+                    username:''
+                }
             }
         },
         store,
@@ -139,6 +142,21 @@
                     left.style.marginLeft = '-300px';
                     modal.style.display = 'none';
                 }
+
+                var qs = require('qs');
+
+                let user = this.getCookie('username');
+                this.info.username = user
+                this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
+                    this.d_name = res[0].d_name;
+                    this.d_technicalTitle = res[0].d_technicalTitle
+                    this.d_committee = res[0].d_committee
+                    this.d_tel = res[0].d_tel
+                    this.d_patientNum = res[0].d_patientNum
+                    this.d_abstract = res[0].d_abstract
+                    this.d_face = res[0].d_face
+                });
+                
             },
             talk(){
                 this.$router.push('consult');

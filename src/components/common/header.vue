@@ -53,7 +53,8 @@
                                 <el-dropdown-item divided>
                                     <div class="setting-div">
                                         <i class="iconfont icon-084tuichu"></i>
-                                        <span class="setting-string"> 退出</span>
+                                        <span v-if="loginState" class="setting-string" @click="login">退出</span>
+                                        <span v-else class="setting-string" @click="login">登录</span>
                                     </div>
                                     
                                 </el-dropdown-item>
@@ -77,8 +78,8 @@
                 name: 'header',
                 searchValue:'',
                 face:'../../../static/img/user.jpg',
-                show:false
-
+                show:false,
+                loginState:false
             }
         },
         computed:{
@@ -86,7 +87,19 @@
                 return this.$store.state.show
             }
         },
+        mounted(){
+            this.init()
+            
+        },
         methods:{
+            init(){
+                let user = this.getCookie('userType');
+                if(user == 1){
+                    this.loginState = true
+                }else{
+                    this.loginState = false
+                }
+            },
             chatList(){
                 this.$router.push("chatList");
             },
@@ -103,6 +116,9 @@
                 }
                 
             },
+            login(){
+                this.$router.push("login");
+            }
             
         },
         store,

@@ -8,17 +8,31 @@
           </div>
           <div class="login-body">
             <el-form ref="loginForm" :model="loginForm" :rules="rules">
-              <el-input class="input" v-model="p_tel" placeholder="手机号"></el-input>
-              <el-input class="input" v-model="p_password" placeholder="密码"></el-input>
-              <el-select v-model="p_houseNum" class="input" placeholder="请选择居住范围">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-              <el-button type="success" class="login-submit" round>注册</el-button>
+              <el-form-item prop="p_tel">
+                  <el-input class="input" v-model="loginForm.p_tel" placeholder="手机号"></el-input>
+              </el-form-item>
+              <el-form-item prop="p_password">
+                  <el-input class="input" type="password" v-model="loginForm.p_password" placeholder="密码"></el-input>
+              </el-form-item>
+              <el-form-item prop="p_houseNum">
+                <el-select v-model="loginForm.p_houseNum" class="input" placeholder="请选择居住范围">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+
+              </el-form-item>
+              <el-form-item>
+                  <el-button type="success" @click="onSubmit" class="login-submit" round>注册</el-button>
+              </el-form-item>
+              
+              
+              
             </el-form>
           </div>
         </div>
@@ -32,114 +46,73 @@
 <script>
   export default {
     data() {
+      var validatePhone = (rule, value, callback) => {
+        var reg=11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        if (!reg.test(value)) {
+          callback(new Error('请输入正确的手机号'));
+        } else if(!value) {
+          
+          callback(new Error('手机号不能为空'));
+        }else{
+          callback();
+        }
+      };
       return {
-        options: [{
-          value: 'xcfjA15',
-          label: '新城枫景A1-5号楼'
-        }, {
-          value: 'xcfjA610',
-          label: '新城枫景A6-10号楼'
-        },{
-          value: 'xcfjB16',
-          label: '新城枫景B1-6号楼'
-        }, {
-          value: 'xcfjC16',
-          label: '新城枫景C1-6号楼'
-        }, {
-          value: 'xcfjD17',
-          label: '新城枫景D1-7号楼'
-        }, {
-          value: 'xcfjD813',
-          label: '新城枫景D8-13号楼'
-        },{
-          value: 'hbjshyA19',
-          label: '湖滨教师花园A1-9号楼'
-        }, {
-          value: 'hbjshyA1018',
-          label: '湖滨教师花园A10-18号楼'
-        },{
-          value: 'hbjshyA1926',
-          label: '湖滨教师花园A19-26号楼'
-        }, {
-          value: 'hbjshyB17',
-          label: '湖滨教师花园B1-7号楼'
-        }, {
-          value: 'hbjshyB8102123',
-          label: '湖滨教师花园B8-10、21-23号楼'
-        }, {
-          value: 'hbjshyB24-31',
-          label: '湖滨教师花园B24-31号楼'
-        }, {
-          value: 'hbjshyB32-39',
-          label: '湖滨教师花园B32-39号楼'
-        },{
-          value: 'hbjshyB3945',
-          label: '湖滨教师花园B39-45号楼'
-        }, {
-          value: 'hbjshyC16',
-          label: '湖滨教师花园C1-6号楼'
-        }, {
-          value: 'hbjshyC715 ',
-          label: '湖滨教师花园C7-15号楼'
-        }, {
-          value: 'blctE14',
-          label: '柏林春天E1-4号楼'
-        }, {
-          value: 'blctABCDFGH',
-          label: '柏林春天ABCDFGH号楼'
-        }, {
-          value: 'jxhc19',
-          label: '锦绣华城1-9号楼'
-        }, {
-          value: 'jxhc19',
-          label: '锦绣华城10-18号楼'
-        }, {
-          value: 'bhjy19',
-          label: '滨湖佳苑1-11号楼'
-        }, {
-          value: 'bhjy19',
-          label: '滨州华府1-11号楼'
-        }, {
-          value: 'bhjy19',
-          label: '滨州华府12-21号楼'
-        }, {
-          value: 'hmjyA17',
-          label: '惠民家园A1-7号楼'
-        }, {
-          value: 'hmjyA814',
-          label: '惠民家园A8-14号楼'
-        }, {
-          value: 'hmjyB17',
-          label: '惠民家园B1-7号楼'
-        }, {
-          value: 'hmjyB814',
-          label: '惠民家园B8-14号楼'
-        }, {
-          value: 'nsjy110',
-          label: '嫩水家园1-10号楼'
-        }, {
-          value: 'nsjy1120',
-          label: '嫩水家园11-20号楼'
-        }, {
-          value: 'ysw210',
-          label: '怡水湾2-10号楼'
-        }, {
-          value: 'ysw1118',
-          label: '怡水湾11-18号楼'
-        }, {
-          value: 'ysw1926',
-          label: '怡水湾19-26号楼'
-        }],
+        options: [],
         loginForm:{
           p_tel:'',
           p_password:'',
           p_houseNum:''
+        },
+         //表单验证
+        rules: {
+          p_tel: [
+              {validator:validatePhone, trigger: 'blur'}
+          ],
+          p_password: [
+              {required: true, message: '请输入密码', trigger: 'blur'}
+          ],
+          p_houseNum: [
+              {required: true, message: '请选择居住范围', trigger: 'blur'}
+          ]
         }
        
       };
     },
+    mounted(){
+      this.init()
+    },
     methods: {
-      
+      init(){
+        this.$fetch('http://127.0.0.1:4000/getAddress').then(res => {
+            console.log(res)
+            this.options = res
+          });
+      },
+      onSubmit(){
+        var qs = require('qs');
+        this.$refs.loginForm.validate((valid) => {
+            if(valid) {
+                this.$post('http://127.0.0.1:4000/register',qs.stringify(this.loginForm)).then(res => {
+                  console.log(res.message)
+                    if(res.message == 'OK') {
+                        this.$message({
+                            message: "添加成功",
+                            type: 'success'
+                        });
+                        this.$router.go(-1);
+                    } else {
+                        this.$message({
+                            message:  "添加失败",
+                            type:'error'
+                        });
+                        this.$router.go(-1);
+                    }
+                });
+            }
+        });
+        
+    }
     }
   };
 </script>
@@ -147,7 +120,9 @@
     .content{
       max-width:400px;
       margin:0 auto;
+      text-align: center;
     }
+
     .login-content{
       border: 1px solid #ccc;
       box-shadow:0px 0px 10px #999;
@@ -164,7 +139,6 @@
       margin-top:1rem;
     }
     .login-content .login-body .input{
-      margin-top:1rem;
       width:100%;
     }
     .login-content .login-body p{

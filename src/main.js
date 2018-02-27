@@ -17,6 +17,12 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Share)
 
+Vue.prototype.$post = post;
+Vue.prototype.$fetch = fetch;
+Vue.prototype.$patch = patch;
+Vue.prototype.$put = put;
+Vue.prototype.$http = axios;
+
 //cookie方法
 Vue.prototype.getCookie = getCookie;
 Vue.prototype.setCookie = setCookie;

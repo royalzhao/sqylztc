@@ -5,6 +5,7 @@ import {delCookie,getCookie} from '@/util/util'
 
 import index from '@/components/page/index'
 import login from '@/components/login/login'
+import DLogin from '@/components/login/DLogin'
 import register from '@/components/login/register'
 
 import healthy from '@/components/page/healthy'
@@ -81,6 +82,11 @@ const routes =  [
       name: '登录'
      
     },{
+      path: '/DLogin',
+      component: DLogin,//登录页
+      name: '登录'
+     
+    },{
       path: '/setting',//设置页
       component: setting,
       children:[        //子页
@@ -104,5 +110,27 @@ const routes =  [
 const router = new Router({
   mode: 'history',
   routes
+});
+//这个是请求页面路由的时候会验证cookie存不存在，不存在的话会到登录页
+router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/login')) {
+    delCookie('username');
+    delCookie('userType');
+    next()
+  }else if(to.path.startsWith('/register')){
+    next()
+  }else if(to.path.startsWith('/DLogin')){
+    delCookie('username');
+    delCookie('userType');
+    next()
+  } else {
+    let user = getCookie('username');
+    if (!user) {
+      next({path: '/login'})
+    } else {
+      next()
+    }
+  }
+
 });
 export default router;

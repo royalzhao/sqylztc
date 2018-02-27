@@ -32,7 +32,7 @@
             添加成员
         </div>
         
-        <div class="delGroup" v-if="delGroupState">
+        <div class="delGroup" v-if="delGroupState" @click="delGroup">
             <i class="el-icon-minus"></i>
             删除选中
         </div>
@@ -43,28 +43,21 @@
     export default {
         data(){
             return{
-                familyList:[
-                    {  
-                        id:'1',
-                        name:'张三'
-                    },
-                    {
-                        id:'2',
-                        name:'王五'
-                    }
-                ],
+                familyList:[],
                 listLoading:false,
                 multipleSelection:'',
                 delGroupState:false,
                 map: {
                     id:''
                 },
-                        
+                info:{
+                    username:''
+                }        
             }
         },
         mounted() {
             //初始化
-            //this.familyInfo()
+            this.familyInfo()
         },
         methods: {
             handleSelectionChange(val) {
@@ -79,9 +72,11 @@
             // 查询
             familyInfo(){
                 this.listLoading = true;
+                
                 var qs = require('qs');
-            
-                this.$post('#',qs.stringify(this.data)).then(res => {
+                let user = this.getCookie('username');
+                this.info.username = user
+                this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
                     this.familyList = res;
                     this.listLoading = false;
                 });
@@ -92,9 +87,9 @@
                 
                 this.$confirm('确定要删除选中用户吗？')
                     .then(_ => {
-                    this.$post('#?data='+ids).then(res => {
+                    this.$post('http://127.0.0.1:4000/delAllPerson?data='+ids).then(res => {
                         
-                        this.goodsInfo();
+                        this.familyInfo();
                         this.$message({
                             message: "删除成功",
                             type: 'success'
@@ -124,9 +119,9 @@
                 //console.log(qs.stringify(this.map))
                 this.$confirm('确定要删除该选项吗？')
                     .then(_ => {
-                    this.$post('#',qs.stringify(this.map)).then(res => {
+                    this.$post('http://127.0.0.1:4000/delPerson',qs.stringify(this.map)).then(res => {
                         
-                        this.awardInfo();
+                        this.familyInfo();
                         this.$message({
                             message: "删除成功",
                             type: 'success'
@@ -135,7 +130,7 @@
                     })
                     .catch(_ => {
                     this.$message({
-                            message:  "删除失败",
+                            message:  "用户取消",
                             type:'error'
                         });
                     });
@@ -168,6 +163,7 @@
 }
 .delGroup:hover{
     color: rgba(249, 88, 67, 1);
+    cursor: pointer;
 }
 .addPersonContent{
     clear: both;

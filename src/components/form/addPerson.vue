@@ -10,8 +10,8 @@
             </el-form-item>
             <el-form-item label="性别" prop="sex">
                 <el-radio-group v-model="form.sex">
-                  <el-radio label="男"></el-radio>
-                  <el-radio label="女"></el-radio>
+                  <el-radio label="男" value="1"></el-radio>
+                  <el-radio label="女" value="0"></el-radio>
                 </el-radio-group>
             </el-form-item>
             
@@ -49,7 +49,8 @@
                     weight:'',
                     history:'',
                     sex:'',
-                    profession:''
+                    profession:'',
+                    fromUser:''
                 },
                 //表单验证
                 rules: {
@@ -69,7 +70,7 @@
                         {required: true, message: '请输入病史', trigger: 'blur'}
                     ],
                     sex: [
-                        {required: true, message: '请选择年龄', trigger: 'blur'}
+                        {required: true, message: '请选择性别', trigger: 'blur'}
                     ],
                     profession: [
                         {required: true, message: '请输入职业', trigger: 'blur'}
@@ -78,15 +79,24 @@
                 
             }
         },
+        mounted(){
+            this.init()
+        },
         methods: {
             back(){
                 this.$router.go(-1);
             },
+            init(){
+                let user = this.getCookie('username');
+                this.form.fromUser = user
+            },
             onSubmit(){
+                var qs = require('qs');
                 this.$refs.form.validate((valid) => {
                     if(valid) {
-                        this.$post('#',qs.stringify(this.form)).then(res => {
-                            if(res == 1) {
+                        this.$post('http://127.0.0.1:4000/insertPerson',qs.stringify(this.form)).then(res => {
+                            console.log(res)
+                            if(res.message == "OK") {
                                 this.$message({
                                     message: "添加成功",
                                     type: 'success'

@@ -3,7 +3,7 @@
         <el-tabs v-model="activeName">
             <el-tab-pane label="健康头条" name="first">
                 <div class="article_wrap" v-for="item in toutiaoList">
-                    <div class="acticle" @click="articleDetail(item.id)">
+                    <div class="acticle" @click="toutiaoDetail(item.id)">
                         <div class="acticle_img">
                             <img :src="item.img" alt="健康头条图片">
                         </div>
@@ -23,7 +23,7 @@
             </el-tab-pane>
             <el-tab-pane label="医疗知识" name="second">
                 <div class="article_wrap" v-for="item in zhishiList">
-                    <div class="acticle" @click="articleDetail(item.id)">
+                    <div class="acticle" @click="yiliaoDetail(item.id)">
                         <div class="acticle_img">
                             <img :src="item.img" alt="医疗知识图片">
                         </div>
@@ -44,7 +44,7 @@
             <el-tab-pane label="常用电话" name="third">
                 <el-table
                     :data="common_phone"
-                    style="width: 100%">
+                    style="width: 100%"  v-loading="listLoading">
                     <el-table-column
                       prop="title"
                       label="常用热线">
@@ -63,32 +63,7 @@
         data() {
             return {
                 activeName: 'first',
-                toutiaoList:[
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    },
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    },
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    }
-                ],
+                toutiaoList:[],
                 zhishiList:[
                     {
                         id:'1',
@@ -115,35 +90,40 @@
                         time:'2017/01/21'
                     }
                 ],
-                common_phone:[
-                    {
-                        title:'急救电话',
-                        phone:'120'
-                    },
-                    {
-                        title:'高新区黎明街道社区卫生服务中心',
-                        phone:'8999211'
-                    },
-                    {
-                        title:'黎明街道五湖社区卫生服务站',
-                        phone:'8977118'
-                    },
-                    {
-                        title:'黎明街道学苑社区卫生服务站',
-                        phone:'4338831'
-                    },
-                    {
-                        title:'黎明街道黎明社区卫生服务站',
-                        phone:'4677590'
-                    }
-                ]
+                common_phone:[],
+                listLoading:false
             };
         },
+        mounted() {
+            //初始化
+            this.toutiaoInfo();
+            this.getPhone();
+        },
         methods: {
-            articleDetail(id) {
+            toutiaoDetail(id) {
                 if(id !== undefined) {
-                    this.$router.push({path:'article',query:{id:id}});
+                    this.$router.push({path:'article',query:{id:id,type:1}});
                 }
+            },
+            yiliaoDetail(id) {
+                if(id !== undefined) {
+                    this.$router.push({path:'article',query:{id:id,type:2}});
+                }
+            },
+            toutiaoInfo(){
+                //var qs = require('qs');
+                //读取列表
+                this.$fetch('http://127.0.0.1:4000/selectToutiao').then(res => {
+                    this.toutiaoList = res;
+                });
+            },
+            getPhone(){
+                this.listLoading = true;
+                    
+                this.$fetch('http://127.0.0.1:4000/common_phone').then(res => {
+                    this.listLoading = false;
+                    this.common_phone = res;
+                });
             }
         }
     }

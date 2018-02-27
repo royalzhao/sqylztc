@@ -21,7 +21,7 @@
         </div>
         <div class="newUser-box">
           <router-link class="newUser" to="register">新用户？点击这里注册</router-link><br>
-          <router-link class="newUser" to="DLogin">我是医生</router-link>
+          <router-link class="newUser" to="login">我是居民</router-link>
         </div>
         
     </div>
@@ -45,7 +45,7 @@
         loginForm:{
           p_tel:'',
           p_password:'',
-          loginState:1
+          loginState:2
         },
          //表单验证
          rules: {

@@ -37,19 +37,28 @@
                     title: '这是一个标题', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
                     description: '氨基酸是构成大分子蛋白质的基本组成单位', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
                     image:''
-                }   
+                },
+                type:''   
             }
         },
         mounted() {
             //初始化
             this.article.id = this.$route.query.id;
+            this.type = this.$route.query.type;
             this.articleInfo();
         },
         methods:{
             articleInfo() {
-                // this.$fetch('#?id=' + this.$route.query.id).then(res => {
-                //     this.article = res;
-                // });
+                var qs = require('qs');
+                let info = {};
+                info.id= this.$route.query.id;
+                info.type=this.type;
+                this.$post('http://192.168.0.115:4000/article',qs.stringify(info)).then(res => {
+                    this.article = res[0];
+                    this.title = res[0].title;
+                    this.description = res[0].description;
+                    this.image = res[0].img;
+                });
             },
         },
         
