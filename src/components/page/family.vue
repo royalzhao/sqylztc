@@ -48,7 +48,8 @@
                 multipleSelection:'',
                 delGroupState:false,
                 map: {
-                    id:''
+                    id:'',
+                    ids:''
                 },
                 info:{
                     username:''
@@ -83,11 +84,11 @@
             },
             delGroup() {  
                 var qs = require('qs');
-                var ids = this.multipleSelection.map(item => item.g_id);//获取所有选中行的id组成的字符串，以逗号分隔  
-                
+                var ids = this.multipleSelection.map(item => item.id);//获取所有选中行的id组成的字符串，以逗号分隔  
+                this.map.ids = ids;
                 this.$confirm('确定要删除选中用户吗？')
                     .then(_ => {
-                    this.$post('http://127.0.0.1:4000/delAllPerson?data='+ids).then(res => {
+                    this.$post('http://127.0.0.1:4000/delAllPerson',qs.stringify(this.map)).then(res => {
                         
                         this.familyInfo();
                         this.$message({
