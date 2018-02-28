@@ -10,8 +10,8 @@
             </el-form-item>
             <el-form-item label="性别" prop="sex">
                 <el-radio-group v-model="form.sex">
-                  <el-radio label="男"></el-radio>
-                  <el-radio label="女"></el-radio>
+                  <el-radio label="1">男</el-radio>
+                  <el-radio label="0">女</el-radio>
                 </el-radio-group>
             </el-form-item>
             
@@ -31,7 +31,7 @@
                 <el-input v-model="form.history" placeholder="例：心脏病"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button class="submit" type="primary" @click="onSubmit">添加</el-button>
+                <el-button class="submit" type="primary" @click="onSubmit">修改</el-button>
                 <el-button @click="back">返回</el-button>
             </el-form-item>
         </el-form>
@@ -43,6 +43,7 @@
         data(){
             return{
                 form:{
+                    id:'',
                     name:'',
                     age:'',
                     height:'',
@@ -74,20 +75,54 @@
                     profession: [
                         {required: true, message: '请输入职业', trigger: 'blur'}
                     ]
+                },
+                info:{
+                    id:''
                 }
                 
             }
         },
+        mounted(){
+            this.init()
+        },
         methods: {
+            init(){
+                var qs = require('qs');
+                this.info.id= this.$route.query.id;
+                this.$post('http://127.0.0.1:4000/getFamilyDetail',qs.stringify(this.info)).then(res => {
+                    this.form.id = res[0].id;
+                    this.form.name = res[0].name;
+                    this.form.age = res[0].age;
+                    this.form.height = res[0].height;
+                    this.form.weight = res[0].weight;
+                    this.form.history = res[0].history;
+                    this.form.sex = res[0].sex;
+                    this.form.profession = res[0].profession;
+                    
+                   
+                });
+            },
             back(){
                 this.$router.go(-1);
             },
             onSubmit(){
+                var qs = require('qs');
                 this.$refs.form.validate((valid) => {
                     if(valid) {
-                        this.$message({
-                            message: "添加成功",
-                            type: 'success'
+                        this.$post('http://127.0.0.1:4000/updateFamilyDetail',qs.stringify(this.form)).then(res => {
+                            console.log(res.message)
+                            if(res.message == "OK") {
+                                this.$message({
+                                    message: "修改成功",
+                                    type: 'success'
+                                });
+                                this.$router.go(-1);
+                            } else {
+                                this.$message({
+                                    message:  "修改失败",
+                                    type:'error'
+                                });
+                            }
                         });
                     }
                 });

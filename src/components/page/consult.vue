@@ -48,28 +48,31 @@
                 
             </div>
             <div v-else>
-                <p>
-                    请选择要咨询的人：
-                    <el-select size="small" v-model="value" placeholder="请选择">
-                        <el-option
-                            v-for="item in familyList"
-                            :key="item.name"
-                            :label="item.name"
-                            :value="item.name">
-                        </el-option>
-                    </el-select>
-                </p>
+                <el-form ref="form"  label-position="right" :rules="rules"  :model="form">
+                    <el-form-item label="请选择要咨询的人：" prop="value">
+                        <el-select size="small" v-model="form.value" placeholder="请选择">
+                            <el-option
+                                v-for="item in familyList"
+                                :key="item.name"
+                                :label="item.name"
+                                :value="item.name">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="请选择咨询的方式：" prop="radio">
+                        <el-radio-group v-model="form.radio">
+                            <el-radio label="1">匿名</el-radio>
+                            <el-radio label="0">实名</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item>
+                        <div class="start">
+                            <el-button @click="next" size="small" type="success" round>点击开始咨询</el-button>
+                        </div>
+                    </el-form-item>
+                </el-form>
+
                 
-                <p>
-                    请选择咨询的方式：
-                    <el-radio v-model="radio" label="1">匿名</el-radio>
-                    <el-radio v-model="radio" label="2">实名</el-radio>
-                </p>
-    
-            
-                <div class="start">
-                    <el-button @click="next" size="small" type="success" round>点击开始咨询</el-button>
-                </div>
             </div>
             
         </div>
@@ -81,29 +84,67 @@
     data() {
       return {
         active: 0,
-        familyList:[
-            {
-                name:'张三'
-            },
-            {
-                name:'李四'
-            }
-        ],
-        value: '',
-        radio: '1',
+        familyList:[],
+        form:{
+            value: '',
+            radio: '1'
+        },
         steps:true,
         chatState:false,
-        textarea:''
+        textarea:'',
+        info:{
+            username:''
+        },
+        rules: {
+            value: [
+                {required: true, message: '请选择要咨询的人', trigger: 'blur'}
+            ]
+        }      
       };
     },
-
+    mounted(){
+        this.init()
+    },
     methods: {
-      next() {
-        this.chatState = true;
-      },
-      over(){
-        this.chatState = false;
-      }
+        init(){
+            var qs = require('qs');
+            let user = this.getCookie('username');
+            this.info.username = user
+            this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
+                this.familyList = res;
+               
+            });
+
+            let chatState = this.getCookie('chatState');
+            console.log(chatState)
+            if(chatState=='true'){
+                this.chatState = true
+                console.log(true)
+            }else{
+                this.chatState = false
+                console.log(false)
+            }
+            
+            
+        },
+        next() {
+            var qs = require('qs');
+            this.$refs.form.validate((valid) => {
+                if(valid) {
+                    this.$post('http://127.0.0.1:4000/startChat',qs.stringify(this.form)).then(res => {
+                        console.log(res)
+                        this.chatState = true;
+                        this.setCookie('chatState',true);
+                    });
+                }
+            });
+            
+        },
+        over(){
+            this.chatState = false;
+            this.setCookie('chatState',false);
+        
+        }
     }
   }
 </script>
@@ -147,7 +188,6 @@
 }
 .content .right .lang{
     max-width: 60%;
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 10px;
     margin-right: 20px;
@@ -186,6 +226,10 @@
 }
 .button{
     float: right;
+    margin-top: 10px;
+}
+.el-form-item{
+    margin-bottom: 0px;
     margin-top: 10px;
 }
 </style>

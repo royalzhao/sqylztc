@@ -65,7 +65,7 @@
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
                 this.$post('http://127.0.0.1:4000/login',qs.stringify(this.loginForm)).then(res => {
-                    console.log(res.message)
+                    
                     if(res.message == 'OK') {
                         this.$message({
                             message: "登录成功",

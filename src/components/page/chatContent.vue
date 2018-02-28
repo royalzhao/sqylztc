@@ -99,12 +99,12 @@
 }
 .content .right .lang{
     max-width: 60%;
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 10px;
     margin-right: 20px;
     background: #32BA58;
     color: #fff;
+    border: 0;
 }
 .content .left .lang{
     max-width: 60%;

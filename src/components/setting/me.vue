@@ -57,14 +57,21 @@ export default {
         return {
             position:'left',
             form: {
-                name: '张三',
-                phone: '17977578877',
-                password: 'asdasdasdsadas'
+                name: '',
+                phone: '',
+                password: ''
+            },
+            info:{
+                username:''
             },
             nameChangeState:false,
             phoneChangeState:false,
             passwordChangeState:false,
         };
+    },
+    mounted() {
+        //初始化
+        this.init()
     },
     methods:{
         //图片上传
@@ -89,6 +96,18 @@ export default {
             this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isIMGType && isLt2M;
+        },
+        init(){
+            var qs = require('qs');
+            let user = this.getCookie('username');
+            this.info.username = user
+            this.$post('http://127.0.0.1:4000/getUserInfo',qs.stringify(this.info)).then(res => {
+                console.log(res)
+                this.form.name = res[0].p_name;
+                this.form.phone = res[0].p_tel;
+                this.form.password = res[0].p_password;
+
+            });
         },
         changeName(){
             this.nameChangeState = true;
