@@ -106,6 +106,7 @@
     export default {
         data(){
             return{
+                d_id:'',
                 d_name:'',
                 d_technicalTitle:'',
                 d_committee:'',
@@ -155,6 +156,10 @@
                     this.d_patientNum = res[0].d_patientNum
                     this.d_abstract = res[0].d_abstract
                     this.d_face = res[0].d_face
+                    this.d_id = res[0].d_id
+
+                    let expireDays = 1000 * 60 * 60 * 24 * 15;
+                    this.setCookie('d_id',res[0].d_id,expireDays);
                 });
                 
             },

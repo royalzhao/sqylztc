@@ -31,7 +31,7 @@
   export default {
     data() {
       var validatePhone = (rule, value, callback) => {
-        var reg=11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        var reg=11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;
         if (!reg.test(value)) {
           callback(new Error('请输入正确的手机号'));
         } else if(!value) {

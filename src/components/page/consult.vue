@@ -9,22 +9,17 @@
             </span>
         </div>
         <div class="content">
-           <div class="left">
-                <div class="face">
-                    <img src="../../../static/img/doctor.jpg" alt="">
+            <div v-for="item in chatContent" style="margin:5px 0;">
+                <div class="left">
+                    <div class="face">
+                        <img src="../../../static/img/doctor.jpg" alt="">
+                    </div>
+                    <div class="lang">
+                        在下方留言，我会努力加快回复你的哦！
+                    </div>
                 </div>
-                <div class="lang">
-                    在下方留言，我会努力加快回复你的哦！
-                </div>
-           </div>
-           <div class="right">
-                <div class="face">
-                    <img src="../../../static/img/doctor.jpg" alt="">
-                </div>
-                <div class="lang">
-                    在下方留言，我会努力加快回复你的哦！
-                </div>
-           </div>
+            </div>
+           
             
            
          
@@ -42,7 +37,7 @@
                     </el-input>
                 </div>
                 <div class="button">
-                    <el-button size="small">发送</el-button>
+                    <el-button size="small" @click="send">发送</el-button>
                     <el-button size="small" @click="over" type="danger">结束咨询</el-button>
                 </div>
                 
@@ -55,7 +50,7 @@
                                 v-for="item in familyList"
                                 :key="item.name"
                                 :label="item.name"
-                                :value="item.name">
+                                :value="item.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -85,9 +80,13 @@
       return {
         active: 0,
         familyList:[],
+        chatContent:[],
         form:{
+            id:'',
             value: '',
-            radio: '1'
+            radio: '1',
+            username:'',
+            d_id:''
         },
         steps:true,
         chatState:false,
@@ -104,6 +103,9 @@
     },
     mounted(){
         this.init()
+    },
+    created: function () {
+        
     },
     methods: {
         init(){
@@ -124,17 +126,43 @@
                 this.chatState = false
                 console.log(false)
             }
+
+            let detail = {};
+            detail.record_group_id = this.getCookie('record_group_id');
+            this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(detail)).then(res => {
+                console.log(res)
+                this.chatContent = res;
+               
+            });
             
             
         },
         next() {
             var qs = require('qs');
+            let user = this.getCookie('username');
+            let d_id = this.getCookie('d_id');
+            
+            var timestamp=new Date().getTime();
+
+            this.form.id = timestamp;
+            this.form.username = user;
+            this.form.d_id = d_id;
+
             this.$refs.form.validate((valid) => {
                 if(valid) {
                     this.$post('http://127.0.0.1:4000/startChat',qs.stringify(this.form)).then(res => {
-                        console.log(res)
-                        this.chatState = true;
-                        this.setCookie('chatState',true);
+                        if(res.message == 'OK') {
+                            this.chatState = true;
+                            this.setCookie('chatState',true);
+                            this.setCookie('record_group_id',this.form.id);
+                        } else {
+                            this.$message({
+                                message:  "网络开小差了哦！",
+                                type:'error'
+                            });
+                        
+                        }
+                        
                     });
                 }
             });
@@ -144,7 +172,30 @@
             this.chatState = false;
             this.setCookie('chatState',false);
         
-        }
+        },
+        send(){
+            var qs = require('qs');
+            let detail = {};
+            detail.record_group_id = this.getCookie('record_group_id');
+            detail.content = this.textarea;
+            detail.receiver = this.getCookie('d_id');
+            detail.send = this.getCookie('username');
+
+            this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                if(res.message == 'OK') {
+                    this.chatState = true;
+                    this.textarea = '';
+                } else {
+                    this.$message({
+                        message:  "网络开小差了哦！",
+                        type:'error'
+                    });
+                
+                }
+                
+            });
+        },
+
     }
   }
 </script>

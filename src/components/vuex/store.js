@@ -6,9 +6,7 @@ Vue.use(Vuex);
 const state={
     show:false
 }
-const info={
-    d_id:''
-}
+
 const mutations={
     show(state){
         state.show=true;
@@ -18,6 +16,6 @@ const mutations={
     }
 }
 export default new Vuex.Store({
-	state,mutations,info
+	state,mutations
  
 })
