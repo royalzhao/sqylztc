@@ -9,13 +9,21 @@
             </span>
         </div>
         <div class="content">
+            <div class="left">
+                <div class="face">
+                    <img src="../../../static/img/doctor.jpg" alt="">
+                </div>
+                <div class="leftlang">
+                    在下方留言，我会努力加快回复你的哦！
+                </div>
+            </div>
             <div v-for="item in chatContent" style="margin:5px 0;">
-                <div class="left">
+                <div class="left" v-bind:class="{ right: item.classState }">
                     <div class="face">
                         <img src="../../../static/img/doctor.jpg" alt="">
                     </div>
-                    <div class="lang">
-                        在下方留言，我会努力加快回复你的哦！
+                    <div class="leftlang " v-bind:class="{ rightlang: item.classState }">
+                        {{item.content}}
                     </div>
                 </div>
             </div>
@@ -103,6 +111,7 @@
     },
     mounted(){
         this.init()
+        this.chat()
     },
     created: function () {
         
@@ -127,14 +136,27 @@
                 console.log(false)
             }
 
+           
+            
+            
+        },
+        chat(){
+            var qs = require('qs');
             let detail = {};
             detail.record_group_id = this.getCookie('record_group_id');
             this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(detail)).then(res => {
                 console.log(res)
+                for(var i = 0;i<res.length;i++){
+                    if(res[i].send == this.getCookie('username')){
+                        res[i].classState = true;
+                    }else{
+                        res[i].classState = false;
+                    }
+                    
+                }
                 this.chatContent = res;
                
             });
-            
             
         },
         next() {
@@ -237,15 +259,9 @@
 .content .left .face img,.content .right .face img{
     width: 100%;
 }
-.content .right .lang{
-    max-width: 60%;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-right: 20px;
-    background: #32BA58;
-    color: #fff;
-}
-.content .left .lang{
+
+
+.leftlang{
     max-width: 60%;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -253,6 +269,14 @@
     margin-left: 20px;
     background: #fff;
     color: #666;
+}
+.rightlang{
+    max-width: 60%;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 20px;
+    background: #32BA58;
+    color: #fff;
 }
 .bottom p{
     font-size: 0.8rem;
