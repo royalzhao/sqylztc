@@ -2,18 +2,18 @@
     <div>
         <h3>咨询记录</h3>
         <div class="chatList_wrap">
-            <div class="acticle" @click="chatDetail(item.id)" v-for="item in chatList">
+            <div class="acticle" @click="chatDetail(item.record_group_id)" v-for="item in chatList">
                 <div class="user_img">
-                    <img :src="item.img" alt="头像">
+                    <img :src="item.d_face" alt="头像">
                 </div>
                 <div class="acticle_content">
                     <div class="top">
-                        <span class="user">{{item.name}}</span>
-                        <span class="time">{{item.time}}</span>
+                        <span class="user">{{item.d_name}}</span>
+                        <span class="time">{{item.TIME}}</span>
                     </div>
                     <div class="bottom">
                         <span>{{item.content}}</span>
-                        <el-badge :value="200" :max="99" class="badeg"></el-badge>
+                        <span class="badeg"></span>
                     </div>
                 </div>
             </div>
@@ -27,27 +27,36 @@ export default {
         return{
             chatList:[
                 {
-                    id:'1',
-                    img:'../../../static/img/user.jpg',
-                    name:'张三',
-                    time:'17:42',
-                    content:'aaaaaaaaaaaaaaaaaa'
-                },
-                {
-                    id:'2',
-                    img:'../../../static/img/user.jpg',
-                    name:'张三',
-                    time:'17:42',
+                    record_group_id:'1',
+                    d_face:'../../../static/img/user.jpg',
+                    d_name:'张三',
+                    TIME:'17:42',
                     content:'aaaaaaaaaaaaaaaaaa'
                 }
-            ]
+            ],
+            info:{
+                username:''
+            }
         }
     },
+    mounted(){
+        this.list()
+    },
     methods:{
-        chatDetail(id) {
-            if(id !== undefined) {
-                this.$router.push({path:'chatContent',query:{id:id}});
+        chatDetail(record_group_id) {
+            if(record_group_id !== undefined) {
+                this.$router.push({path:'chatContent',query:{record_group_id:record_group_id}});
             }
+        },
+        list(){
+            var qs = require('qs');
+            let user = this.getCookie('username');
+            this.info.username = user
+            this.$post('http://127.0.0.1:4000/getGroupList',qs.stringify(this.info)).then(res => {
+                console.log(res[0])
+                this.chatList = res;
+                
+            });
         }
     }
 
@@ -94,6 +103,13 @@ export default {
 }
 .acticle .acticle_content .bottom .badeg{
     float: right;
+    width: 10px;
+    height: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background: #f56c6c;
 }
 
 

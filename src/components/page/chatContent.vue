@@ -4,25 +4,21 @@
             <span>
                 聊天记录
             </span>
-            
+            <span class="del" @click="del">
+                <i class="el-icon-delete"></i>
+            </span>
         </div>
         <div class="content">
-           <div class="left">
-                <div class="face">
-                    <img src="../../../static/img/doctor.jpg" alt="">
+            <div v-for="item in chatContent" style="margin:5px 0;">
+                <div class="left">
+                    <div class="face">
+                        <img src="../../../static/img/doctor.jpg" alt="">
+                    </div>
+                    <div class="leftlang ">
+                        {{item.content}}
+                    </div>
                 </div>
-                <div class="lang">
-                    在下方留言，我会努力加快回复你的哦！
-                </div>
-           </div>
-           <div class="right">
-                <div class="face">
-                    <img src="../../../static/img/doctor.jpg" alt="">
-                </div>
-                <div class="lang">
-                    在下方留言，我会努力加快回复你的哦！
-                </div>
-           </div>
+            </div>
         </div>
         
 
@@ -33,14 +29,7 @@
     data() {
       return {
         active: 0,
-        familyList:[
-            {
-                name:'张三'
-            },
-            {
-                name:'李四'
-            }
-        ],
+        chatContent:[],
         value: '',
         radio: '1',
         steps:true,
@@ -48,21 +37,38 @@
         textarea:''
       };
     },
-
+    mounted(){
+        this.chat()
+    },
     methods: {
-      next() {
-        this.chatState = true;
-      },
-      over(){
-        this.chatState = false;
-      }
+      
+      chat(){
+        var qs = require('qs');
+        let info = {};
+        info.record_group_id= this.$route.query.record_group_id;
+        this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(info)).then(res => {
+            
+            //  for(var i = 0;i<res.length;i++){
+            //      if(res[i].send == this.getCookie('username')){
+            //          res[i].classState = true;
+            //      }else{
+            //          res[i].classState = false;
+            //      }
+                 
+            //  }
+              this.chatContent = res;
+            console.log(res)
+         });
+        
+    },
     }
   }
 </script>
 <style scoped>
-.refresh{
+.del{
     float: right;
-    color: #32BA58;
+    color: red;
+    cursor: pointer;
     margin-top: 5px;
 }
 .title{

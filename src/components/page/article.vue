@@ -53,7 +53,7 @@
                 let info = {};
                 info.id= this.$route.query.id;
                 info.type=this.type;
-                this.$post('http://192.168.0.115:4000/article',qs.stringify(info)).then(res => {
+                this.$post('http://127.0.0.1:4000/article',qs.stringify(info)).then(res => {
                     this.article = res[0];
                     this.title = res[0].title;
                     this.description = res[0].description;

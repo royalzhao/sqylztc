@@ -4,7 +4,7 @@
             <span>
                 咨询医生
             </span>
-            <span class="refresh">
+            <span class="refresh" @click="refresh">
                 <i class="iconfont icon-icon-refresh"></i>
             </span>
         </div>
@@ -27,12 +27,6 @@
                     </div>
                 </div>
             </div>
-           
-            
-           
-         
-            
-                
         </div>
         <div class="bottom">
             <div v-if="chatState">
@@ -140,12 +134,15 @@
             
             
         },
+        refresh(){
+            this.chat()
+        },
         chat(){
             var qs = require('qs');
             let detail = {};
             detail.record_group_id = this.getCookie('record_group_id');
             this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(detail)).then(res => {
-                console.log(res)
+               
                 for(var i = 0;i<res.length;i++){
                     if(res[i].send == this.getCookie('username')){
                         res[i].classState = true;
@@ -155,7 +152,7 @@
                     
                 }
                 this.chatContent = res;
-               
+                this.chat()
             });
             
         },
@@ -207,6 +204,7 @@
                 if(res.message == 'OK') {
                     this.chatState = true;
                     this.textarea = '';
+                    this.chat()
                 } else {
                     this.$message({
                         message:  "网络开小差了哦！",
@@ -226,6 +224,7 @@
     float: right;
     color: #32BA58;
     margin-top: 5px;
+    cursor: pointer;
 }
 .title{
     margin: 15px 0 10px 0;
