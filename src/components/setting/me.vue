@@ -9,42 +9,26 @@
                 </el-upload>
             </el-form-item>
             <el-form-item label="名字">
-               <div v-if="nameChangeState">
-                    <el-input v-model="form.name" style="width:200px;" size="small"></el-input>
-                    <span class="change" @click="saveName">保存</span>
-                    <span class="change" @click="cancelName">取消</span>
-               </div>
-
-                <div v-else>
+               
                     {{form.name}}
-                    <span class="change" @click="changeName">编辑</span>
-                </div>
-                
+               
             </el-form-item>
             <el-form-item label="手机账号">
                 
-                <div v-if="phoneChangeState">
-                    <el-input v-model="form.phone" style="width:200px;" size="small"></el-input>
-                    <span class="change" @click="savePhone">保存</span>
-                    <span class="change" @click="cancelPhone">取消</span>
-                </div>
-                <div v-else>
+               
                     {{form.phone}}
-                    <span class="change" @click="changePhone">编辑</span>
-                </div>
-                
-              
+               
             </el-form-item>
             <el-form-item label="密码">
                 
                 <div v-if="passwordChangeState">
-                    <el-input v-model="form.password" type="password" style="width:200px;" size="small"></el-input>
+                    <el-input v-model="form.password" style="width:200px;" size="small"></el-input>
                     <span class="change" @click="savePassword">保存</span>
                     <span class="change" @click="cancelPassword">取消</span>
                 </div>
                 <div v-else>
                     {{form.password}}
-                    <span class="change" @click="changePassword">编辑</span>
+                    <span class="change" @click="changePassword">修改</span>
                 </div>
               
             </el-form-item>
@@ -59,7 +43,9 @@ export default {
             form: {
                 name: '',
                 phone: '',
-                password: ''
+                password: '',
+                face:'',
+                g_img:false
             },
             info:{
                 username:''
@@ -77,12 +63,31 @@ export default {
         //图片上传
         uploadImg(file) {
             var fd = new FormData();
-            fd.append ("file" , file.file);
-            this.$post('http://www.bjytzh.cn/jxc/upLoad.thtml',fd).then(res => {
-                
-                this.form.g_img = res;
+            var qs = require('qs');
+            fd.append ("avatar" , file.file);   //avatar为name，要和后端保持一致
+            this.$post('http://127.0.0.1:4000/upload',fd).then(res => {
+                console.log(res.filePath)
+                this.form.face = res.filePath;
+                this.form.g_img = true;
 
+                this.$post('http://127.0.0.1:4000/updateFace',qs.stringify(this.form)).then(res => {
+                    if(res.message == 'OK') {
+                        this.$message({
+                            message:  "修改头像成功！",
+                            type:'success'
+                        });
+                    } else {
+                        this.$message({
+                            message:  "网络开小差了哦！",
+                            type:'error'
+                        });
+                    
+                    }
+                            
+
+                });
             });
+            
         },
         //图片上传之前
         beforeAvatarUpload(file) {
@@ -102,10 +107,16 @@ export default {
             let user = this.getCookie('username');
             this.info.username = user
             this.$post('http://127.0.0.1:4000/getUserInfo',qs.stringify(this.info)).then(res => {
-                console.log(res)
+                console.log(res[0])
                 this.form.name = res[0].p_name;
                 this.form.phone = res[0].p_tel;
                 this.form.password = res[0].p_password;
+                console.log(res[0].p_face)
+                if(res[0].p_face !== ''){
+                    this.form.face = res[0].p_face;
+                    this.form.g_img = true;
+                }
+                
 
             });
         },
@@ -127,16 +138,25 @@ export default {
         cancelPassword(){
             this.passwordChangeState = false;
         },
-        saveName(){
-            console.log(this.form.name)
-            this.nameChangeState = false;
-        },
-        savePhone(){
-            console.log(this.form.phone)
-            this.phoneChangeState = false;
-        },
+     
         savePassword(){
-            console.log(this.form.password)
+            var qs = require('qs');
+            this.$post('http://127.0.0.1:4000/updatePassword',qs.stringify(this.form)).then(res => {
+                if(res.message == 'OK') {
+                    this.$message({
+                        message:  "修改密码成功！",
+                        type:'success'
+                    });
+                } else {
+                    this.$message({
+                        message:  "网络开小差了哦！",
+                        type:'error'
+                    });
+                
+                }
+                        
+
+            });
             this.passwordChangeState = false;
         },
     }
@@ -147,5 +167,9 @@ export default {
         font-size: 0.7rem;
         color:#32BA58;
         cursor: pointer;
+    }
+    .avatar{
+        width: 100px;
+        height: 100px;
     }
 </style>

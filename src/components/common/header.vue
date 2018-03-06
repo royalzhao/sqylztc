@@ -25,7 +25,10 @@
                 </el-col>
                 <el-col class="set-box" :xs="8" :sm="8" :md="8" :lg="8">
                     <span @click="chatList">
-                        <el-badge :value="12" class="item">
+                        <el-badge v-if="chatWacth" class="item">
+                            <i class="el-icon-bell"></i>
+                        </el-badge>
+                        <el-badge v-else is-dot class="item">
                             <i class="el-icon-bell"></i>
                         </el-badge>
                     </span>
@@ -79,7 +82,8 @@
                 searchValue:'',
                 face:'../../../static/img/user.jpg',
                 show:false,
-                loginState:false
+                loginState:false,
+                chatWacth:true
             }
         },
         computed:{
@@ -99,6 +103,19 @@
                 }else{
                     this.loginState = false
                 }
+                var qs = require('qs');
+                let info = {};
+                info.receiver= this.getCookie('username');
+                this.$post('http://127.0.0.1:4000/selectState',qs.stringify(info)).then(res => {
+                    if(res[0].state == 'true'){
+                        this.chatWacth = true;
+                        
+                    }else{
+                        this.chatWacth = false;
+                    }
+                    
+                    
+                });
             },
             chatList(){
                 this.$router.push("chatList");

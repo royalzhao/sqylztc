@@ -8,7 +8,7 @@
                 <i class="iconfont icon-icon-refresh"></i>
             </span>
         </div>
-        <div class="content">
+        <div class="content" id="content">
             <div class="left">
                 <div class="face">
                     <img src="../../../static/img/doctor.jpg" alt="">
@@ -110,6 +110,14 @@
     created: function () {
         
     },
+    watch: {
+        chatContent: function(){
+            this.$nextTick(() => {
+                var div = document.getElementById('content')
+                div.scrollTop = div.scrollHeight
+            })  
+        }
+    },
     methods: {
         init(){
             var qs = require('qs');
@@ -152,7 +160,7 @@
                     
                 }
                 this.chatContent = res;
-                this.chat()
+                
             });
             
         },
@@ -200,20 +208,28 @@
             detail.receiver = this.getCookie('d_id');
             detail.send = this.getCookie('username');
 
-            this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
-                if(res.message == 'OK') {
-                    this.chatState = true;
-                    this.textarea = '';
-                    this.chat()
-                } else {
-                    this.$message({
-                        message:  "网络开小差了哦！",
-                        type:'error'
-                    });
-                
-                }
-                
-            });
+            if(this.textarea !== '') {
+                this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                    if(res.message == 'OK') {
+                        this.chatState = true;
+                        this.textarea = '';
+                        this.chat()
+                    } else {
+                        this.$message({
+                            message:  "网络开小差了哦！",
+                            type:'error'
+                        });
+                    
+                    }
+                    
+                });
+            } else {
+                this.$message({
+                    message:  "发送内容不能为空！",
+                    type:'error'
+                });
+            
+            }
         },
 
     }
@@ -241,6 +257,7 @@
     width: 100%;
     height: 350px;
     border-bottom: 1px solid #ccc;
+    overflow: auto;
 }
 .content .left{
     display: flex;

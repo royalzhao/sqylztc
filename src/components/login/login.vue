@@ -79,10 +79,9 @@
                         this.$router.push('/');
                     } else {
                         this.$message({
-                            message:  "登录失败",
+                            message:  "账号或密码错误",
                             type:'error'
                         });
-                        this.$router.go(0);
                     }
                 });
             }

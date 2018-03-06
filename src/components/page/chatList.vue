@@ -13,7 +13,8 @@
                     </div>
                     <div class="bottom">
                         <span>{{item.content}}</span>
-                        <span class="badeg"></span>
+                        <span v-if="item.state=='true'"></span>
+                        <span v-else class="badeg"></span>
                     </div>
                 </div>
             </div>
@@ -31,7 +32,8 @@ export default {
                     d_face:'../../../static/img/user.jpg',
                     d_name:'张三',
                     TIME:'17:42',
-                    content:'aaaaaaaaaaaaaaaaaa'
+                    content:'aaaaaaaaaaaaaaaaaa',
+                    state:false
                 }
             ],
             info:{
@@ -45,7 +47,7 @@ export default {
     methods:{
         chatDetail(record_group_id) {
             if(record_group_id !== undefined) {
-                this.$router.push({path:'chatContent',query:{record_group_id:record_group_id}});
+                this.$router.push({path:'chatContent',query:{record_group_id:record_group_id,}});
             }
         },
         list(){
@@ -53,7 +55,7 @@ export default {
             let user = this.getCookie('username');
             this.info.username = user
             this.$post('http://127.0.0.1:4000/getGroupList',qs.stringify(this.info)).then(res => {
-                console.log(res[0])
+                //console.log(typeof(res[0].state))
                 this.chatList = res;
                 
             });
