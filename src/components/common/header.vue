@@ -19,6 +19,7 @@
                         <el-input
                         placeholder="请输入内容"
                         prefix-icon="el-icon-search"
+                        @keyup.enter.native="search"
                         v-model="searchValue">
                         </el-input>
                     </div>
@@ -135,6 +136,11 @@
             },
             login(){
                 this.$router.push("login");
+            },
+            search: function (ev) {
+                
+                this.$router.push({name:'search',params:{info:this.searchValue}});    
+                
             }
             
         },

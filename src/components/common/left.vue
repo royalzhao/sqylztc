@@ -1,16 +1,16 @@
 <template>
     <div>
         <div class="left hidden-xs-only">
-            <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="family">
+            <el-menu class="el-menu-vertical-demo" unique-opened router>
+                <el-menu-item index="family" @click = "family">
                     <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
                     <span class="sb-cn">家庭成员</span>
                 </el-menu-item>
-                <el-menu-item index="healthy">
+                <el-menu-item index="healthy" @click="healthy">
                     <span class="sb-icon"><i class="iconfont icon-toutiao"></i></span>
                     <span class="sb-cn">健康头条</span>
                 </el-menu-item>
-                <el-menu-item index="chatList">
+                <el-menu-item index="chatList" @click="chatList">
                     <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
                     <span class="sb-cn">咨询记录</span>
                 </el-menu-item>
@@ -133,6 +133,16 @@
              this.init()
         },
         methods:{
+            family(){
+                this.$router.push({name:'family'})
+            },
+            healthy(){
+                this.$router.push({name:'healthy'})
+            },
+            chatList(){
+                this.$router.push({name:'chatList'})
+            },
+            
             init(){
                 var left = document.getElementById('leftXs');
                 var modal = document.getElementById('modal');
@@ -164,10 +174,10 @@
                 
             },
             talk(){
-                this.$router.push('consult');
+                this.$router.push({name:'consult'});
             },
             order(){
-                this.$router.push('order');
+                this.$router.push({name:'order'});
             }
         },
         watch: {

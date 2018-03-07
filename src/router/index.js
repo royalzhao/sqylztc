@@ -20,6 +20,7 @@ import consult from '@/components/page/consult'
 import order from '@/components/page/order'
 import article from '@/components/page/article'
 import chatContent from '@/components/page/chatContent'
+import search from '@/components/page/search'
 
 
 Vue.use(Router)
@@ -36,10 +37,12 @@ const routes =  [
         },
         {
           path:'/healthy',
+          name:'healthy',
           component:healthy
         },
         {
           path:'/family',
+          name:'family',
           component:family
         },
         {
@@ -52,14 +55,17 @@ const routes =  [
         },
         {
           path:'/chatList',
+          name:'chatList',
           component:chatList
         },
         {
           path:'/consult',
+          name:'consult',
           component:consult
         },
         {
           path:'/order',
+          name:'order',
           component:order
         },
         {
@@ -69,6 +75,17 @@ const routes =  [
         {
           path:'/chatContent',
           component:chatContent
+        },
+        {
+          path:'search',
+          component:search,
+          children:[        //子页
+            {
+              path:':info',
+              name:'search',
+              component:search
+            }
+          ]
         },
        ]
     },{

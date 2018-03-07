@@ -130,25 +130,28 @@
 </script>
 <style scoped>
 .article_wrap .acticle{
-    display: flex;
+    clear: both;
     cursor: pointer;
+    height: 120px;
 }
 .article_wrap .acticle .acticle_img{
-    flex-grow: 1;
+    float: left;
     border: 1px solid #ccc;
     padding: 2px;
     margin: 5px;
     border-radius: 3px;
-    width: 300px;
+    width: 200px;
+    height: 120px;
+    margin-right: 10px;
 }
 .article_wrap .acticle .acticle_img img{
     width: 100%;
     height: 100%;
 }
 .article_wrap .acticle .acticle_content{
-    flex-grow: 3;
     text-align: left;
     margin-left: 10px;
+    padding-top: 2px;
 }
 .article_wrap .acticle .acticle_content p{
     font-size: 0.8rem;
