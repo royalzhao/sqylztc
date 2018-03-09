@@ -106,14 +106,18 @@
                 }
                 var qs = require('qs');
                 let info = {};
-                info.receiver= this.getCookie('username');
-                this.$post('http://127.0.0.1:4000/selectState',qs.stringify(info)).then(res => {
-                    if(res[0].state == 'true'){
-                        this.chatWacth = true;
+                info.username = this.getCookie('username');
+                this.$post('http://127.0.0.1:4000/getState',qs.stringify(info)).then(res => {
+                    console.log(res[0].count)
+                    
+                    if(res[0].count > 0){
+                        this.chatWacth = false;
                         
                     }else{
-                        this.chatWacth = false;
+                        this.chatWacth = true;
                     }
+                    console.log(this.chatWacth)
+                    
                     
                     
                 });

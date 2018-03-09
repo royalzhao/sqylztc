@@ -27,14 +27,7 @@ export default {
     data(){
         return{
             chatList:[
-                {
-                    record_group_id:'1',
-                    d_face:'../../../static/img/user.jpg',
-                    d_name:'张三',
-                    TIME:'17:42',
-                    content:'aaaaaaaaaaaaaaaaaa',
-                    state:false
-                }
+                
             ],
             info:{
                 username:''
@@ -56,10 +49,30 @@ export default {
             this.info.username = user
             this.$post('http://127.0.0.1:4000/getGroupList',qs.stringify(this.info)).then(res => {
                 //console.log(typeof(res[0].state))
-                this.chatList = res;
-                
+                var a = res;
+                this.$post('http://127.0.0.1:4000/getGroupState',qs.stringify(this.info)).then(res => {
+                    console.log(res)
+                    var _this = res;
+                    for(var j = 0;j<_this.length;j++){
+                        for(var i = 0;i<a.length;i++){
+                        
+                            if(_this[j].record_group_id == a[i].record_group_id){
+                                a[i].state = _this[j].state;
+                                continue;
+                            }else{
+                                a[i].state = 'true'
+                            }
+                        }
+                    }
+                    this.chatList = a
+                    console.log(this.chatList)
+                });
             });
+            
         }
+    },
+    computed:{
+        
     }
 
 }

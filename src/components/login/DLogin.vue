@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <h2>登录</h2>
+        <h2>医生登录</h2>
 
         <div class="login-content">
           <div class="login-face">

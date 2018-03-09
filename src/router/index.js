@@ -21,6 +21,7 @@ import order from '@/components/page/order'
 import article from '@/components/page/article'
 import chatContent from '@/components/page/chatContent'
 import search from '@/components/page/search'
+import orderList from '@/components/page/orderList'
 
 
 Vue.use(Router)
@@ -75,6 +76,11 @@ const routes =  [
         {
           path:'/chatContent',
           component:chatContent
+        },
+        {
+          path:'/orderList',
+          name:'orderList',
+          component:orderList
         },
         {
           path:'search',

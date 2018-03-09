@@ -12,7 +12,7 @@ export default {
 
 <style>
 @import "../static/css/style.css";
-@import url("//at.alicdn.com/t/font_558321_o412fsqb8a6y9zfr.css");
+@import url("//at.alicdn.com/t/font_558321_r78o7mpnustqehfr.css");
 @import url("../node_modules/social-share.js/dist/css/share.min.css");
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

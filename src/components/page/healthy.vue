@@ -65,30 +65,7 @@
                 activeName: 'first',
                 toutiaoList:[],
                 zhishiList:[
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    },
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    },
-                    {
-                        id:'1',
-                        img:'../../../static/img/healthy_img.jpg',
-                        title:'健康头条',
-                        abstract:'健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条健康头条',
-                        see_num:'10',
-                        time:'2017/01/21'
-                    }
+                   
                 ],
                 common_phone:[],
                 listLoading:false
@@ -97,6 +74,7 @@
         mounted() {
             //初始化
             this.toutiaoInfo();
+            this.zhishiInfo();
             this.getPhone();
         },
         methods: {
@@ -115,6 +93,13 @@
                 //读取列表
                 this.$fetch('http://127.0.0.1:4000/selectToutiao').then(res => {
                     this.toutiaoList = res;
+                });
+            },
+            zhishiInfo(){
+                //var qs = require('qs');
+                //读取列表
+                this.$fetch('http://127.0.0.1:4000/selectZhishi').then(res => {
+                    this.zhishiList = res;
                 });
             },
             getPhone(){

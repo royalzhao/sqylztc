@@ -2,18 +2,33 @@
     <div>
         <div class="left hidden-xs-only">
             <el-menu class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="family" @click = "family">
-                    <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
-                    <span class="sb-cn">家庭成员</span>
-                </el-menu-item>
+               
                 <el-menu-item index="healthy" @click="healthy">
                     <span class="sb-icon"><i class="iconfont icon-toutiao"></i></span>
                     <span class="sb-cn">健康头条</span>
                 </el-menu-item>
-                <el-menu-item index="chatList" @click="chatList">
-                    <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
-                    <span class="sb-cn">咨询记录</span>
-                </el-menu-item>
+                <span v-if="userType == 1">
+                    <el-menu-item index="family" @click = "family">
+                        <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
+                        <span class="sb-cn">家庭成员</span>
+                    </el-menu-item>
+                    <el-menu-item index="chatList" @click="chatList">
+                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                        <span class="sb-cn">咨询记录</span>
+                    </el-menu-item>
+                </span>
+                
+                <span v-else>
+                    <el-menu-item index="chatList" @click = "chatList">
+                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                        <span class="sb-cn">查看留言</span>
+                    </el-menu-item>
+                    <el-menu-item index="orderList" @click="orderList">
+                        <span class="sb-icon"><i class="iconfont icon-yuyue"></i></span>
+                        <span class="sb-cn">查看预约</span>
+                    </el-menu-item>
+                </span>
+                
             </el-menu>
             <div class="doctor">
                 <div class="doctor-head">
@@ -116,7 +131,8 @@
                 d_face:'',
                 info:{
                     username:''
-                }
+                },
+                userType:''
             }
         },
         store,
@@ -142,7 +158,9 @@
             chatList(){
                 this.$router.push({name:'chatList'})
             },
-            
+            orderList(){
+                this.$router.push({name:'orderList'})
+            },
             init(){
                 var left = document.getElementById('leftXs');
                 var modal = document.getElementById('modal');
@@ -157,7 +175,9 @@
                 var qs = require('qs');
 
                 let user = this.getCookie('username');
+                let userType = this.getCookie('userType');
                 this.info.username = user
+                this.userType = userType
                 this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
                     this.d_name = res[0].d_name;
                     this.d_technicalTitle = res[0].d_technicalTitle

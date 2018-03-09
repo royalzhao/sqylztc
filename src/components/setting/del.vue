@@ -4,7 +4,7 @@
         <div class="chat">
             <span class="title">
                 <span>共计</span>
-                <span>101条</span>
+                <span>{{chatNum}}条</span>
             </span>
             <span class="del" @click="delAll">
                 清除
@@ -17,17 +17,25 @@ export default {
     data() {
         return {
             position:'left',
-            form: {
-                name: '张三',
-                phone: '17977578877',
-                password: 'asdasdasdsadas'
-            },
+            chatNum:'',
             nameChangeState:false,
             phoneChangeState:false,
             passwordChangeState:false,
         };
     },
+    mounted(){
+        this.init()
+    },
     methods:{
+        init(){
+            var qs = require('qs');
+            let info = {};
+            info.username = this.getCookie('username');
+            this.$post('http://127.0.0.1:4000/getAllChatNum',qs.stringify(info)).then(res => {
+                this.chatNum = res[0].count
+               console.log(res)
+            });
+        },
         //图片上传
         uploadImg(file) {
             var fd = new FormData();
@@ -84,14 +92,16 @@ export default {
         delAll(){
             this.$confirm('确定要删除吗？')
                 .then(_ => {
-                this.$post('#',qs.stringify(this.map)).then(res => {
-                    
-                    this.awardInfo();
-                    this.$message({
-                        message: "删除成功",
-                        type: 'success'
+                    var qs = require('qs');
+                    let info = {};
+                    info.username = this.getCookie('username');
+                    this.$post('http://127.0.0.1:4000/delAllChat',qs.stringify(info)).then(res => {
+                        
+                        this.$message({
+                            message: "删除成功",
+                            type: 'success'
+                        });
                     });
-                });
                 })
                 .catch(_ => {
                 this.$message({
