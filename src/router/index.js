@@ -119,6 +119,7 @@ const routes =  [
         },
         {
           path:'/setting/me',
+          name:'me',
           component:me
         },
         {

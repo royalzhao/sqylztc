@@ -55,11 +55,13 @@
                             {{d_abstract}}
                         </p>
                     </div>
-                    <div class="button">
+                    <div class="button" v-if="userType == 1">
                         <el-button class="talk" @click="talk">咨询</el-button>
                         <el-button class="order" @click="order">预约</el-button>
                     </div>
-                    
+                    <div class="button" v-else>
+                        <el-button class="update" @click="update">编辑个人信息</el-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,18 +69,31 @@
         <div class="left leftXs hidden-sm-and-up" id="leftXs" >
             
             <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="family">
-                    <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
-                    <span class="sb-cn">家庭成员</span>
-                </el-menu-item>
-                <el-menu-item index="healthy">
+                <el-menu-item index="healthy" @click="healthy">
                     <span class="sb-icon"><i class="iconfont icon-toutiao"></i></span>
                     <span class="sb-cn">健康头条</span>
                 </el-menu-item>
-                <el-menu-item index="chatList">
-                    <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
-                    <span class="sb-cn">咨询记录</span>
-                </el-menu-item>
+                <span v-if="userType == 1">
+                    <el-menu-item index="family" @click = "family">
+                        <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
+                        <span class="sb-cn">家庭成员</span>
+                    </el-menu-item>
+                    <el-menu-item index="chatList" @click="chatList">
+                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                        <span class="sb-cn">咨询记录</span>
+                    </el-menu-item>
+                </span>
+                
+                <span v-else>
+                    <el-menu-item index="chatList" @click = "chatList">
+                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                        <span class="sb-cn">查看留言</span>
+                    </el-menu-item>
+                    <el-menu-item index="orderList" @click="orderList">
+                        <span class="sb-icon"><i class="iconfont icon-yuyue"></i></span>
+                        <span class="sb-cn">查看预约</span>
+                    </el-menu-item>
+                </span>
             </el-menu>
             <div class="doctor">
                 <div class="doctor-head">
@@ -105,9 +120,12 @@
                             {{d_abstract}}
                         </p>
                     </div>
-                    <div class="button">
+                    <div class="button" v-if="userType == 1">
                         <el-button class="talk" @click="talk">咨询</el-button>
                         <el-button class="order" @click="order">预约</el-button>
+                    </div>
+                    <div class="button" v-else>
+                        <el-button class="update" @click="update">编辑个人信息</el-button>
                     </div>
                     
                 </div>
@@ -130,7 +148,8 @@
                 d_abstract:'',
                 d_face:'',
                 info:{
-                    username:''
+                    username:'',
+                    userType:''
                 },
                 userType:''
             }
@@ -161,6 +180,9 @@
             orderList(){
                 this.$router.push({name:'orderList'})
             },
+            update(){
+                this.$router.push({name:'me'})
+            },
             init(){
                 var left = document.getElementById('leftXs');
                 var modal = document.getElementById('modal');
@@ -178,7 +200,9 @@
                 let userType = this.getCookie('userType');
                 this.info.username = user
                 this.userType = userType
+                this.info.userType = userType
                 this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
+                    console.log(res)
                     this.d_name = res[0].d_name;
                     this.d_technicalTitle = res[0].d_technicalTitle
                     this.d_committee = res[0].d_committee
@@ -189,7 +213,7 @@
                     this.d_id = res[0].d_id
 
                     let expireDays = 1000 * 60 * 60 * 24 * 15;
-                    this.setCookie('d_id',res[0].d_id,expireDays);
+                    this.setCookie('d_tel',res[0].d_tel,expireDays);
                 });
                 
             },
@@ -301,6 +325,12 @@
         background: #32BA58;
         color: #fff;
         border:0;
+    }
+    .doctor .doctor-body .button .update{
+        background: #32BA58;
+        color: #fff;
+        border:0;
+        width: 100%;
     }
     .doctor .doctor-body .button .talk:hover{
         background: rgba(50, 186,88, 0.8);

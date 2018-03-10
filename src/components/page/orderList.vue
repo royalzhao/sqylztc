@@ -3,7 +3,6 @@
         <h3>预约信息</h3>
         <el-table
         :data="tableData3"
-        height=""
         v-loading="listLoading"
         style="width: 100%">
             <el-table-column
@@ -77,6 +76,7 @@
                 listLoading:'false',
             }
         },
+        
         mounted(){
             this.init()
         },

@@ -99,7 +99,7 @@
             let detail = {};
             detail.record_group_id= this.$route.query.record_group_id;
             detail.content = this.textarea;
-            detail.receiver = this.getCookie('d_id');
+            detail.receiver = this.getCookie('d_tel');
             detail.send = this.getCookie('username');
             console.log(detail.content)
             if(this.textarea !== '') {

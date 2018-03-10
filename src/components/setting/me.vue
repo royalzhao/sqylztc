@@ -45,10 +45,12 @@ export default {
                 phone: '',
                 password: '',
                 face:'',
-                g_img:false
+                g_img:false,
+                userType:''
             },
             info:{
-                username:''
+                username:'',
+                userType:''
             },
             nameChangeState:false,
             phoneChangeState:false,
@@ -64,6 +66,7 @@ export default {
         uploadImg(file) {
             var fd = new FormData();
             var qs = require('qs');
+            
             fd.append ("avatar" , file.file);   //avatar为name，要和后端保持一致
             this.$post('http://127.0.0.1:4000/upload',fd).then(res => {
                 console.log(res.filePath)
@@ -105,15 +108,18 @@ export default {
         init(){
             var qs = require('qs');
             let user = this.getCookie('username');
+            let userType = this.getCookie('userType');
             this.info.username = user
+            this.info.userType = userType
+            this.form.userType = userType
             this.$post('http://127.0.0.1:4000/getUserInfo',qs.stringify(this.info)).then(res => {
                 console.log(res[0])
-                this.form.name = res[0].p_name;
-                this.form.phone = res[0].p_tel;
-                this.form.password = res[0].p_password;
-                console.log(res[0].p_face)
+                this.form.name = res[0].name;
+                this.form.phone = res[0].tel;
+                this.form.password = res[0].password;
+                console.log(res[0].face)
                 if(res[0].p_face !== ''){
-                    this.form.face = res[0].p_face;
+                    this.form.face = res[0].face;
                     this.form.g_img = true;
                 }
                 

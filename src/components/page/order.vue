@@ -94,7 +94,7 @@
             },
             order(){
                 var qs = require('qs');
-                let d_id = this.getCookie('d_id');
+                let d_id = this.getCookie('d_tel');
                 this.form.d_id = d_id;
 
                 this.$refs.form.validate((valid) => {

@@ -99,7 +99,7 @@
         methods:{
             init(){
                 let user = this.getCookie('userType');
-                if(user == 1){
+                if(user != null){
                     this.loginState = true
                 }else{
                     this.loginState = false

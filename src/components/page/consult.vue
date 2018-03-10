@@ -124,6 +124,7 @@
             let user = this.getCookie('username');
             this.info.username = user
             this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
+                console.log(res)
                 this.familyList = res;
                
             });
@@ -167,13 +168,13 @@
         next() {
             var qs = require('qs');
             let user = this.getCookie('username');
-            let d_id = this.getCookie('d_id');
+            let d_tel = this.getCookie('d_tel');
             
             var timestamp=new Date().getTime();
 
             this.form.id = timestamp;
             this.form.username = user;
-            this.form.d_id = d_id;
+            this.form.d_id = d_tel;
 
             this.$refs.form.validate((valid) => {
                 if(valid) {
@@ -205,7 +206,7 @@
             let detail = {};
             detail.record_group_id = this.getCookie('record_group_id');
             detail.content = this.textarea;
-            detail.receiver = this.getCookie('d_id');
+            detail.receiver = this.getCookie('d_tel');
             detail.send = this.getCookie('username');
 
             if(this.textarea !== '') {
