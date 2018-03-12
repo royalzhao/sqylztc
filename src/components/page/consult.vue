@@ -104,12 +104,10 @@
       };
     },
     mounted(){
-        this.init()
+        this.init(),
         this.chat()
     },
-    created: function () {
-        
-    },
+    
     watch: {
         chatContent: function(){
             this.$nextTick(() => {
@@ -152,16 +150,18 @@
             detail.record_group_id = this.getCookie('record_group_id');
             this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(detail)).then(res => {
                
+
+
                 for(var i = 0;i<res.length;i++){
                     if(res[i].send == this.getCookie('username')){
                         res[i].classState = true;
                     }else{
                         res[i].classState = false;
                     }
-                    
+                   
                 }
                 this.chatContent = res;
-                
+
             });
             
         },
@@ -208,7 +208,7 @@
             detail.content = this.textarea;
             detail.receiver = this.getCookie('d_tel');
             detail.send = this.getCookie('username');
-
+            detail.face = this.getCookie('userface');
             if(this.textarea !== '') {
                 this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
                     if(res.message == 'OK') {

@@ -18,7 +18,7 @@
             <div v-for="item in chatContent" style="margin:5px 0;">
                 <div class="left" v-bind:class="{ right: item.classState }">
                     <div class="face">
-                        <img src="../../../static/img/doctor.jpg" alt="">
+                        <img :src="item.face | replace" alt="">
                     </div>
                     <div class="leftlang " v-bind:class="{ rightlang: item.classState }">
                         {{item.content}}
@@ -67,6 +67,12 @@
             })  
         }
     },
+    filters:{
+        replace (input){
+            return input.replace(/%3A/g, ':')
+        }
+       
+    },
     methods: {
       
       chat(){
@@ -76,15 +82,22 @@
         info.receiver= this.getCookie('username');
         this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(info)).then(res => {
             
+
+
              for(var i = 0;i<res.length;i++){
                  if(res[i].send == this.getCookie('username')){
                      res[i].classState = true;
                  }else{
                      res[i].classState = false;
                  }
+                
                  
              }
-              this.chatContent = res;
+            this.chatContent = res;
+            console.log(this.chatContent)
+            
+
+
            // console.log(res)
          });
         this.$post('http://127.0.0.1:4000/changeState',qs.stringify(info)).then(res => {
@@ -96,34 +109,68 @@
         
         send(){
             var qs = require('qs');
-            let detail = {};
-            detail.record_group_id= this.$route.query.record_group_id;
-            detail.content = this.textarea;
-            detail.receiver = this.getCookie('d_tel');
-            detail.send = this.getCookie('username');
-            console.log(detail.content)
-            if(this.textarea !== '') {
-                this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
-                    if(res.message == 'OK') {
-                        this.chatState = true;
-                        this.textarea = '';
-                        this.chat()
-                    } else {
-                        this.$message({
-                            message:  "网络开小差了哦！",
-                            type:'error'
-                        });
-                    
-                    }
-                    
-                });
-            } else {
-                this.$message({
-                    message:  "发送内容不能为空！",
-                    type:'error'
-                });
-            
+            if(this.getCookie('userType') == '1'){
+                let detail = {};
+                detail.record_group_id= this.$route.query.record_group_id;
+                detail.content = this.textarea;
+                detail.receiver = this.getCookie('d_tel');
+                detail.send = this.getCookie('username');
+                detail.face = this.getCookie('userface');
+                console.log(detail.content)
+                if(this.textarea !== '') {
+                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                        if(res.message == 'OK') {
+                            this.chatState = true;
+                            this.textarea = '';
+                            this.chat()
+                        } else {
+                            this.$message({
+                                message:  "网络开小差了哦！",
+                                type:'error'
+                            });
+                        
+                        }
+                        
+                    });
+                } else {
+                    this.$message({
+                        message:  "发送内容不能为空！",
+                        type:'error'
+                    });
+                
+                }
+            }else if(this.getCookie('userType') == '2'){
+                let detail = {};
+                detail.record_group_id= this.$route.query.record_group_id;
+                detail.content = this.textarea;
+                detail.receiver = this.$route.query.send; 
+                detail.send = this.getCookie('username');
+                detail.face = this.getCookie('userface');
+                console.log(detail)
+                if(this.textarea !== '') {
+                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                        if(res.message == 'OK') {
+                            this.chatState = true;
+                            this.textarea = '';
+                            this.chat()
+                        } else {
+                            this.$message({
+                                message:  "网络开小差了哦！",
+                                type:'error'
+                            });
+                        
+                        }
+                        
+                    });
+                } else {
+                    this.$message({
+                        message:  "发送内容不能为空！",
+                        type:'error'
+                    });
+                
+                }
             }
+            
             
            
         },

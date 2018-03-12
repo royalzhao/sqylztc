@@ -65,28 +65,42 @@
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
                 this.$post('http://127.0.0.1:4000/login',qs.stringify(this.loginForm)).then(res => {
-                    
-                    if(res.message == 'OK') {
-                        this.$message({
-                            message: "登录成功",
-                            type: 'success'
-                        });
-                        let expireDays = 1000 * 60 * 60 * 24 * 15;
-                        this.setCookie('username',this.loginForm.p_tel,expireDays);
-                        this.setCookie('userType',this.loginForm.loginState,expireDays);
-                
-                
-                        this.$router.push('/');
-                    } else {
+                    console.log(res)
+                    if(res.message == 'ERROR') {
                         this.$message({
                             message:  "账号或密码错误",
                             type:'error'
                         });
+                        
+                
+                       
+                    } else {
+                        this.$message({
+                            message: "登录成功",
+                            type: 'success'
+                        });
+                      
+                       
+
+                        let expireDays = 1000 * 60 * 60 * 24 * 15;
+                        this.setCookie('username',this.loginForm.p_tel,expireDays);
+                        this.setCookie('userType',this.loginForm.loginState,expireDays);
+                        
+                        this.setCookie('userface',res[0].face,expireDays);
+
+                        console.log(res[0].face)
+                        console.log(this.getCookie('userface'))
+
+                        this.$router.push('/');
+
+                        
                     }
                 });
             }
         });
       }
+
+      
     }
   };
 </script>

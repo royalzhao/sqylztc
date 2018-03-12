@@ -2,13 +2,13 @@
     <div>
         <h3>咨询记录</h3>
         <div class="chatList_wrap">
-            <div class="acticle" @click="chatDetail(item.record_group_id)" v-for="item in chatList">
+            <div class="acticle" @click="chatDetail(item.record_group_id,item.send)" v-for="item in chatList">
                 <div class="user_img">
-                    <img :src="item.d_face" alt="头像">
+                    <img :src="item.face" alt="头像">
                 </div>
                 <div class="acticle_content">
                     <div class="top">
-                        <span class="user">{{item.d_name}}</span>
+                        <span class="user">{{item.name}}</span>
                         <span class="time">{{item.TIME}}</span>
                     </div>
                     <div class="bottom">
@@ -38,9 +38,9 @@ export default {
         this.list()
     },
     methods:{
-        chatDetail(record_group_id) {
+        chatDetail(record_group_id,send) {
             if(record_group_id !== undefined) {
-                this.$router.push({path:'chatContent',query:{record_group_id:record_group_id,}});
+                this.$router.push({path:'chatContent',query:{record_group_id:record_group_id,send:send}});
             }
         },
         list(){
@@ -67,7 +67,7 @@ export default {
                             }
                         }
                         this.chatList = a
-                        console.log(this.chatList)
+                        console.log(this.chatList[0])
                     });
                 });
             }else if(userType == '2'){

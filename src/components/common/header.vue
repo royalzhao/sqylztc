@@ -57,8 +57,12 @@
                                 <el-dropdown-item divided>
                                     <div class="setting-div">
                                         <i class="iconfont icon-084tuichu"></i>
-                                        <span v-if="loginState" class="setting-string" @click="login">退出</span>
-                                        <span v-else class="setting-string" @click="login">登录</span>
+                                        <span v-if="loginState">
+                                            <span class="setting-string" @click="login">退出</span>    
+                                        </span>
+                                        <span v-else>
+                                            <span class="setting-string" @click="login">登录</span>    
+                                        </span>
                                     </div>
                                     
                                 </el-dropdown-item>
