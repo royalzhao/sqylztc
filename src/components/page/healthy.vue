@@ -3,43 +3,45 @@
         <el-tabs v-model="activeName">
             <el-tab-pane label="健康头条" name="first">
                 <div class="article_wrap" v-for="item in toutiaoList">
-                    <div class="acticle" @click="toutiaoDetail(item.id)">
+                    <div class="acticle" @click="toutiaoDetail(item.n_id)">
                         <div class="acticle_img">
-                            <img :src="item.img" alt="健康头条图片">
+                            <img :src="item.n_img" alt="健康头条图片">
                         </div>
                         <div class="acticle_content">
-                            <h3>{{item.title}}</h3>
+                            <h3>{{item.n_title}}</h3>
                             <p>
-                                {{item.abstract}}
+                                {{item.n_abstract}}
                             </p>
                             <div class="acticle_info">
-                                <span> 浏览（{{item.see_num}}）</span>
-                                <span> 时间（{{item.time}}）</span>
+                                <span> 浏览（{{item.n_see_num}}）</span>
+                                <span> 时间（{{item.n_time}}）</span>
                                
                             </div>
                         </div>
                     </div>
                 </div>
+                <el-button class="more" @click="next1">加载更多</el-button>
             </el-tab-pane>
             <el-tab-pane label="医疗知识" name="second">
                 <div class="article_wrap" v-for="item in zhishiList">
-                    <div class="acticle" @click="yiliaoDetail(item.id)">
+                    <div class="acticle" @click="yiliaoDetail(item.n_id)">
                         <div class="acticle_img">
-                            <img :src="item.img" alt="医疗知识图片">
+                            <img :src="item.n_img" alt="医疗知识图片">
                         </div>
                         <div class="acticle_content">
-                            <h3>{{item.title}}</h3>
+                            <h3>{{item.n_title}}</h3>
                             <p>
-                                {{item.abstract}}
+                                {{item.n_abstract}}
                             </p>
                             <div class="acticle_info">
-                                <span> 浏览（{{item.see_num}}）</span>
-                                <span> 时间（{{item.time}}）</span>
+                                <span> 浏览（{{item.n_see_num}}）</span>
+                                <span> 时间（{{item.n_time}}）</span>
                                 
                             </div>
                         </div>
                     </div>
                 </div>
+                <el-button class="more" @click="next2">加载更多</el-button>
             </el-tab-pane>
             <el-tab-pane label="常用电话" name="third">
                 <el-table
@@ -64,42 +66,80 @@
             return {
                 activeName: 'first',
                 toutiaoList:[],
-                zhishiList:[
-                   
-                ],
+                zhishiList:[],
                 common_phone:[],
-                listLoading:false
+                listLoading:false,
+                limit: 5
             };
         },
-        mounted() {
-            //初始化
+        props: {
+            page1: {
+                type: Number,
+                default: 1
+            },
+            page2: {
+                type: Number,
+                default: 1
+            }
+        },
+        created () {
             this.toutiaoInfo();
             this.zhishiInfo();
             this.getPhone();
         },
+        watch: {
+            page1 (val) {
+                this.toutiaoInfo()
+            },
+            page2(val) {
+                this.zhishiInfo()
+            }
+        },
+       
         methods: {
+            next1(){
+                this.page1++
+            },
+            next2(){
+                this.page2++
+            },
             toutiaoDetail(id) {
                 if(id !== undefined) {
-                    this.$router.push({path:'article',query:{id:id,type:1}});
+                    this.$router.push({path:'article',query:{id:id}});
                 }
             },
             yiliaoDetail(id) {
                 if(id !== undefined) {
-                    this.$router.push({path:'article',query:{id:id,type:2}});
+                    this.$router.push({path:'article',query:{id:id}});
                 }
             },
             toutiaoInfo(){
-                //var qs = require('qs');
+                var qs = require('qs');
+                var info = {};
+                info.n_type="toutiao"
+                info.pageNum=this.page1
+                info.pageSize=this.limit
                 //读取列表
-                this.$fetch('http://127.0.0.1:4000/selectToutiao').then(res => {
-                    this.toutiaoList = res;
+                this.$post('http://127.0.0.1:4000/showToutiaoList',qs.stringify(info)).then(res => {
+                    //console.log(res)
+                    res.forEach(function(e,index,array) {
+                        this.toutiaoList.push(e);
+                    }, this);
+                    
                 });
             },
             zhishiInfo(){
-                //var qs = require('qs');
+                var qs = require('qs');
+                var info = {};
+                info.n_type="zhishi"
+                info.pageNum=this.page2
+                info.pageSize=this.limit
                 //读取列表
-                this.$fetch('http://127.0.0.1:4000/selectZhishi').then(res => {
-                    this.zhishiList = res;
+                this.$post('http://127.0.0.1:4000/showToutiaoList',qs.stringify(info)).then(res => {
+               
+                    res.forEach(function(e,index,array) {
+                        this.zhishiList.push(e);
+                    }, this);
                 });
             },
             getPhone(){
@@ -114,6 +154,16 @@
     }
 </script>
 <style scoped>
+
+.more{
+    clear: both;
+    margin: 20px 0;
+    width: 100%;
+}
+.healthy{
+    height: 100%;
+    overflow: auto;
+}
 .article_wrap .acticle{
     clear: both;
     cursor: pointer;
