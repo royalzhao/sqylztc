@@ -97,13 +97,13 @@
                   console.log(res.message)
                     if(res.message == 'OK') {
                         this.$message({
-                            message: "添加成功",
+                            message: "注册成功，请登录！",
                             type: 'success'
                         });
                         this.$router.go(-1);
                     } else {
                         this.$message({
-                            message:  "添加失败",
+                            message:  "注册失败",
                             type:'error'
                         });
                         this.$router.go(-1);

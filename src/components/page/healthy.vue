@@ -20,7 +20,13 @@
                         </div>
                     </div>
                 </div>
-                <el-button class="more" @click="next1">加载更多</el-button>
+                <span v-if="more1">
+                    <el-button class="more" disabled>已经加载到底部了~</el-button>
+                   
+                </span>
+                <span v-else>
+                    <el-button class="more" @click="next1">加载更多</el-button>
+                </span>
             </el-tab-pane>
             <el-tab-pane label="医疗知识" name="second">
                 <div class="article_wrap" v-for="item in zhishiList">
@@ -41,7 +47,15 @@
                         </div>
                     </div>
                 </div>
-                <el-button class="more" @click="next2">加载更多</el-button>
+                
+                    <span v-if="more2">
+                         <el-button class="more" disabled>已经加载到底部了~</el-button>
+                   
+                    </span>
+                    <span v-else>
+                        <el-button class="more" @click="next2">加载更多</el-button>
+                    </span>
+                
             </el-tab-pane>
             <el-tab-pane label="常用电话" name="third">
                 <el-table
@@ -69,7 +83,9 @@
                 zhishiList:[],
                 common_phone:[],
                 listLoading:false,
-                limit: 5
+                limit: 5,
+                more1:false,
+                more2:false
             };
         },
         props: {
@@ -125,7 +141,18 @@
                     res.forEach(function(e,index,array) {
                         this.toutiaoList.push(e);
                     }, this);
-                    
+
+                    this.$post('http://127.0.0.1:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
+                        
+                        //console.log(res2[0].count)
+                        let total = res2[0].count;
+                        if(total == this.toutiaoList.length){
+                            this.more1=true
+                        }else{
+                            this.more1=false
+                        }
+
+                    });
                 });
             },
             zhishiInfo(){
@@ -136,10 +163,21 @@
                 info.pageSize=this.limit
                 //读取列表
                 this.$post('http://127.0.0.1:4000/showToutiaoList',qs.stringify(info)).then(res => {
-               
+                   // console.log(res)
                     res.forEach(function(e,index,array) {
                         this.zhishiList.push(e);
                     }, this);
+                    this.$post('http://127.0.0.1:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
+                        
+                        //console.log(res2[0].count)
+                        let total = res2[0].count;
+                        if(total == this.zhishiList.length){
+                            this.more2=true
+                        }else{
+                            this.more2=false
+                        }
+
+                    });
                 });
             },
             getPhone(){

@@ -4,16 +4,16 @@
         <div class="article_wrap" v-for="item in toutiaoList">
             <div class="acticle" @click="toutiaoDetail(item.id)">
                 <div class="acticle_img">
-                    <img :src="item.img" alt="健康头条图片">
+                    <img :src="item.n_img" alt="健康头条图片">
                 </div>
                 <div class="acticle_content">
-                    <h3>{{item.title}}</h3>
+                    <h3>{{item.n_title}}</h3>
                     <p>
-                        {{item.abstract}}
+                        {{item.n_abstract}}
                     </p>
                     <div class="acticle_info">
-                        <span> 浏览（{{item.see_num}}）</span>
-                        <span> 时间（{{item.time}}）</span>
+                        <span> 浏览（{{item.n_see_num}}）</span>
+                        <span> 时间（{{item.n_time}}）</span>
                        
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 info.searchValue = this.searchValue
                 //读取列表
                 this.$post('http://127.0.0.1:4000/search',qs.stringify(info)).then(res => {
-                    console.log(res)
+                    console.log(res[0])
                     this.toutiaoList = res;
                 });
             }

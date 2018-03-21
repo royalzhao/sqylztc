@@ -56,7 +56,7 @@
         textarea:''
       };
     },
-    mounted(){
+    created(){
         this.chat()
     },
     watch: {

@@ -11,7 +11,7 @@
         <div class="content" id="content">
             <div class="left">
                 <div class="face">
-                    <img src="../../../static/img/doctor.jpg" alt="">
+                    <img :src="doctorImage" alt="">
                 </div>
                 <div class="leftlang">
                     在下方留言，我会努力加快回复你的哦！
@@ -20,7 +20,7 @@
             <div v-for="item in chatContent" style="margin:5px 0;">
                 <div class="left" v-bind:class="{ right: item.classState }">
                     <div class="face">
-                        <img src="../../../static/img/doctor.jpg" alt="">
+                        <img :src="item.face | replace" alt="">
                     </div>
                     <div class="leftlang " v-bind:class="{ rightlang: item.classState }">
                         {{item.content}}
@@ -90,11 +90,13 @@
             username:'',
             d_id:''
         },
+        doctorImage:'',
         steps:true,
         chatState:false,
         textarea:'',
         info:{
-            username:''
+            username:'',
+            userType:''
         },
         rules: {
             value: [
@@ -104,10 +106,14 @@
       };
     },
     mounted(){
-        this.init(),
-        this.chat()
+        this.init()
     },
-    
+    filters:{
+        replace (input){
+            return input.replace(/%3A/g, ':')
+        }
+       
+    },
     watch: {
         chatContent: function(){
             this.$nextTick(() => {
@@ -117,29 +123,38 @@
         }
     },
     methods: {
+       
         init(){
-            var qs = require('qs');
-            let user = this.getCookie('username');
-            this.info.username = user
-            this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
-                console.log(res)
-                this.familyList = res;
-               
-            });
-
+            
             let chatState = this.getCookie('chatState');
             console.log(chatState)
             if(chatState=='true'){
                 this.chatState = true
                 console.log(true)
+
+                this.chat()
             }else{
                 this.chatState = false
                 console.log(false)
+
+                var qs = require('qs');
+                let user = this.getCookie('username');
+                let userType = this.getCookie('userType');
+                this.info.username = user
+                this.info.userType = userType
+                this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
+                    this.doctorImage = res[0].d_face;
+                   
+                });
+                this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
+                    console.log(res)
+                    this.familyList = res;
+                
+                });
+
             }
 
            
-            
-            
         },
         refresh(){
             this.chat()
@@ -183,6 +198,11 @@
                             this.chatState = true;
                             this.setCookie('chatState',true);
                             this.setCookie('record_group_id',this.form.id);
+
+                            this.$post('http://127.0.0.1:4000/updatePatientNum',qs.stringify(this.form)).then(res => {
+                                console.log(res)
+                            }); 
+
                         } else {
                             this.$message({
                                 message:  "网络开小差了哦！",

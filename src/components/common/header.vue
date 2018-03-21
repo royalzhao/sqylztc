@@ -57,11 +57,10 @@
                                 <el-dropdown-item divided>
                                     <div class="setting-div">
                                         <i class="iconfont icon-084tuichu"></i>
-                                        <span v-if="loginState">
-                                            <span class="setting-string" @click="login">退出</span>    
-                                        </span>
-                                        <span v-else>
-                                            <span class="setting-string" @click="login">登录</span>    
+                                        <span @click="login">
+                                            <span class="setting-string" v-if="loginState">退出</span>    
+                                        
+                                            <span class="setting-string" v-else >登录</span>    
                                         </span>
                                     </div>
                                     
@@ -98,7 +97,6 @@
         },
         mounted(){
             this.init()
-            
         },
         methods:{
             init(){
@@ -132,6 +130,9 @@
             blog(){
                 window.location.href="http://royalzhao.github.io";
             },
+            login(){
+                this.$router.push("login");
+            },
             dll(){
                 if(store.state.show){
                     store.commit('hide');
@@ -142,9 +143,7 @@
                 }
                 
             },
-            login(){
-                this.$router.push("login");
-            },
+            
             search: function (ev) {
                 
                 this.$router.push({name:'search',params:{info:this.searchValue}});    
