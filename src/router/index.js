@@ -29,7 +29,7 @@ Vue.use(Router)
 
 const routes =  [
     {
-      path: '/',
+      path: '/sqztc',
       component: index, //主页
       children:[        //子页
         {
@@ -37,53 +37,53 @@ const routes =  [
           component:healthy
         },
         {
-          path:'/healthy',
+          path:'/sqztc/healthy',
           name:'healthy',
           component:healthy
         },
         {
-          path:'/family',
+          path:'/sqztc/family',
           name:'family',
           component:family
         },
         {
-          path:'/addPerson',
+          path:'/sqztc/addPerson',
           component:addPerson
         },
         {
-          path:'/updatePerson',
+          path:'/sqztc/updatePerson',
           component:updatePerson
         },
         {
-          path:'/chatList',
+          path:'/sqztc/chatList',
           name:'chatList',
           component:chatList
         },
         {
-          path:'/consult',
+          path:'/sqztc/consult',
           name:'consult',
           component:consult
         },
         {
-          path:'/order',
+          path:'/sqztc/order',
           name:'order',
           component:order
         },
         {
-          path:'/article',
+          path:'/sqztc/article',
           component:article
         },
         {
-          path:'/chatContent',
+          path:'/sqztc/chatContent',
           component:chatContent
         },
         {
-          path:'/orderList',
+          path:'/sqztc/orderList',
           name:'orderList',
           component:orderList
         },
         {
-          path:'search',
+          path:'/sqztc/search',
           component:search,
           children:[        //子页
             {
@@ -95,22 +95,22 @@ const routes =  [
         },
        ]
     },{
-      path: '/register',//注册页
+      path: '/sqztc/register',//注册页
       component: register,
       name: '注册'
      
     },{
-      path: '/login',
+      path: '/sqztc/login',
       component: login,//登录页
       name: '登录'
      
     },{
-      path: '/DLogin',
+      path: '/sqztc/DLogin',
       component: DLogin,//登录页
       name: '登录'
      
     },{
-      path: '/setting',//设置页
+      path: '/sqztc/setting',//设置页
       component: setting,
       children:[        //子页
         {
@@ -118,12 +118,12 @@ const routes =  [
           component:me
         },
         {
-          path:'/setting/me',
+          path:'/sqztc/setting/me',
           name:'me',
           component:me
         },
         {
-          path:'/setting/del',
+          path:'/sqztc/setting/del',
           component:del
         },
       ]
@@ -137,20 +137,20 @@ const router = new Router({
 });
 //这个是请求页面路由的时候会验证cookie存不存在，不存在的话会到登录页
 router.beforeEach((to, from, next) => {
-  if (to.path.startsWith('/login')) {
+  if (to.path.startsWith('/sqztc/login')) {
     delCookie('username');
     delCookie('userType');
     next()
-  }else if(to.path.startsWith('/register')){
+  }else if(to.path.startsWith('/sqztc/register')){
     next()
-  }else if(to.path.startsWith('/DLogin')){
+  }else if(to.path.startsWith('/sqztc/DLogin')){
     delCookie('username');
     delCookie('userType');
     next()
   } else {
     let user = getCookie('username');
     if (!user) {
-      next({path: '/login'})
+      next({path: '/sqztc/login'})
     } else {
       next()
     }

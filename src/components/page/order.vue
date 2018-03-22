@@ -99,7 +99,7 @@
 
                 this.$refs.form.validate((valid) => {
                     if(valid) {
-                        this.$post('http://127.0.0.1:4000/order',qs.stringify(this.form)).then(res => {
+                        this.$post('http://www.spn365.cn:4000/order',qs.stringify(this.form)).then(res => {
                             if(res.message == 'OK') {
                                 this.$message({
                                     message: "预约成功",

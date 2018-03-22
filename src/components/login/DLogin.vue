@@ -64,7 +64,7 @@
         var qs = require('qs');
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
-                this.$post('http://127.0.0.1:4000/login',qs.stringify(this.loginForm)).then(res => {
+                this.$post('http://www.spn365.cn:4000/login',qs.stringify(this.loginForm)).then(res => {
                   console.log(res)
                   if(res.message == 'ERROR') {
                       this.$message({

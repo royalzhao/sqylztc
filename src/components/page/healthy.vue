@@ -98,11 +98,12 @@
                 default: 1
             }
         },
-        created () {
+        created() {
             this.toutiaoInfo();
-            this.zhishiInfo();
-            this.getPhone();
+            
+            
         },
+        
         watch: {
             page1 (val) {
                 this.toutiaoInfo()
@@ -121,12 +122,12 @@
             },
             toutiaoDetail(id) {
                 if(id !== undefined) {
-                    this.$router.push({path:'article',query:{id:id}});
+                    this.$router.push({path:'/sqztc/article',query:{id:id}});
                 }
             },
             yiliaoDetail(id) {
                 if(id !== undefined) {
-                    this.$router.push({path:'article',query:{id:id}});
+                    this.$router.push({path:'/sqztc/article',query:{id:id}});
                 }
             },
             toutiaoInfo(){
@@ -136,13 +137,13 @@
                 info.pageNum=this.page1
                 info.pageSize=this.limit
                 //读取列表
-                this.$post('http://127.0.0.1:4000/showToutiaoList',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/showToutiaoList',qs.stringify(info)).then(res => {
                     //console.log(res)
                     res.forEach(function(e,index,array) {
                         this.toutiaoList.push(e);
                     }, this);
 
-                    this.$post('http://127.0.0.1:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
+                    this.$post('http://www.spn365.cn:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
                         
                         //console.log(res2[0].count)
                         let total = res2[0].count;
@@ -154,6 +155,7 @@
 
                     });
                 });
+                this.zhishiInfo();
             },
             zhishiInfo(){
                 var qs = require('qs');
@@ -162,12 +164,12 @@
                 info.pageNum=this.page2
                 info.pageSize=this.limit
                 //读取列表
-                this.$post('http://127.0.0.1:4000/showToutiaoList',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/showToutiaoList',qs.stringify(info)).then(res => {
                    // console.log(res)
                     res.forEach(function(e,index,array) {
                         this.zhishiList.push(e);
                     }, this);
-                    this.$post('http://127.0.0.1:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
+                    this.$post('http://www.spn365.cn:4000/showToutiaoNum',qs.stringify(info)).then(res2 => {
                         
                         //console.log(res2[0].count)
                         let total = res2[0].count;
@@ -179,11 +181,12 @@
 
                     });
                 });
+                this.getPhone();
             },
             getPhone(){
                 this.listLoading = true;
                     
-                this.$fetch('http://127.0.0.1:4000/common_phone').then(res => {
+                this.$fetch('http://www.spn365.cn:4000/common_phone').then(res => {
                     this.listLoading = false;
                     this.common_phone = res;
                 });

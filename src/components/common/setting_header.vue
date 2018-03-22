@@ -44,10 +44,10 @@
         },
         methods:{
             chatList(){
-                this.$router.push("chatList");
+                this.$router.push("/sqztc/chatList");
             },
             close(){
-                this.$router.push("/");
+                this.$router.push("/sqztc");
             },
             
             dll(){

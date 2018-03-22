@@ -86,7 +86,7 @@
                 var qs = require('qs');
                 var info = {};
                 info.username = this.getCookie('username');
-                this.$post('http://127.0.0.1:4000/getAllOrder',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getAllOrder',qs.stringify(info)).then(res => {
                     console.log(res)
                     this.tableData3 = res
                     this.listLoading = false;
@@ -99,7 +99,7 @@
                 //console.log(qs.stringify(this.map))
                 this.$confirm('确定已完成该预约吗？')
                     .then(_ => {
-                        this.$post('http://127.0.0.1:4000/complateOrder',qs.stringify(this.map)).then(res => {
+                        this.$post('http://www.spn365.cn:4000/complateOrder',qs.stringify(this.map)).then(res => {
                             this.init()
                          });
                     })

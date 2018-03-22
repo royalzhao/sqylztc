@@ -2,11 +2,11 @@
     <div>
         <div class="left hidden-xs-only">
             <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="/setting/me">
+                <el-menu-item index="/sqztc/setting/me">
                     <span class="sb-icon"><i class="iconfont icon-wode-"></i></span>
                     <span class="sb-cn">账号</span>
                 </el-menu-item>
-                <el-menu-item index="/setting/del">
+                <el-menu-item index="/sqztc/setting/del">
                     <span class="sb-icon"><i class="iconfont icon-shanchu"></i></span>
                     <span class="sb-cn">清除</span>
                 </el-menu-item>
@@ -17,11 +17,11 @@
         <div id="modal"></div>
         <div class="left leftXs hidden-sm-and-up" id="leftXs" >
             <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="/setting/me">
+                <el-menu-item index="/sqztc/setting/me">
                     <span class="sb-icon"><i class="iconfont icon-wode-"></i></span>
                     <span class="sb-cn">账号</span>
                 </el-menu-item>
-                <el-menu-item index="/setting/del">
+                <el-menu-item index="/sqztc/setting/del">
                     <span class="sb-icon"><i class="iconfont icon-shanchu"></i></span>
                     <span class="sb-cn">清除</span>
                 </el-menu-item>

@@ -80,7 +80,7 @@
         let info = {};
         info.record_group_id= this.$route.query.record_group_id;
         info.receiver= this.getCookie('username');
-        this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(info)).then(res => {
+        this.$post('http://www.spn365.cn:4000/getChatContent',qs.stringify(info)).then(res => {
             
 
 
@@ -100,7 +100,7 @@
 
            // console.log(res)
          });
-        this.$post('http://127.0.0.1:4000/changeState',qs.stringify(info)).then(res => {
+        this.$post('http://www.spn365.cn:4000/changeState',qs.stringify(info)).then(res => {
             
             console.log(res.message)
          });
@@ -118,7 +118,7 @@
                 detail.face = this.getCookie('userface');
                 console.log(detail.content)
                 if(this.textarea !== '') {
-                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
                             this.chatState = true;
                             this.textarea = '';
@@ -148,7 +148,7 @@
                 detail.face = this.getCookie('userface');
                 console.log(detail)
                 if(this.textarea !== '') {
-                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
                             this.chatState = true;
                             this.textarea = '';
@@ -183,7 +183,7 @@
             del.record_group_id= this.$route.query.record_group_id;
             this.$confirm('确定要删除此聊天记录吗？')
                 .then(_ => {
-                    this.$post('http://127.0.0.1:4000/delChatRecord',qs.stringify(del)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/delChatRecord',qs.stringify(del)).then(res => {
                         if(res.message == 'OK') {
                             this.$message({
                                 message:  "删除成功！",

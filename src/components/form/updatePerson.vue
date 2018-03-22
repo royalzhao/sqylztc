@@ -89,7 +89,7 @@
             init(){
                 var qs = require('qs');
                 this.info.id= this.$route.query.id;
-                this.$post('http://127.0.0.1:4000/getFamilyDetail',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getFamilyDetail',qs.stringify(this.info)).then(res => {
                     this.form.id = res[0].id;
                     this.form.name = res[0].name;
                     this.form.age = res[0].age;
@@ -109,7 +109,7 @@
                 var qs = require('qs');
                 this.$refs.form.validate((valid) => {
                     if(valid) {
-                        this.$post('http://127.0.0.1:4000/updateFamilyDetail',qs.stringify(this.form)).then(res => {
+                        this.$post('http://www.spn365.cn:4000/updateFamilyDetail',qs.stringify(this.form)).then(res => {
                             console.log(res.message)
                             if(res.message == "OK") {
                                 this.$message({

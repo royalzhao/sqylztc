@@ -100,7 +100,7 @@
         },
         rules: {
             value: [
-                {required: true, message: '请选择要咨询的人', trigger: 'blur'}
+                {required: true, message: '请选择要咨询的患者', trigger: 'blur'}
             ]
         }      
       };
@@ -142,11 +142,11 @@
                 let userType = this.getCookie('userType');
                 this.info.username = user
                 this.info.userType = userType
-                this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
                     this.doctorImage = res[0].d_face;
                    
                 });
-                this.$post('http://127.0.0.1:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
                     console.log(res)
                     this.familyList = res;
                 
@@ -163,7 +163,7 @@
             var qs = require('qs');
             let detail = {};
             detail.record_group_id = this.getCookie('record_group_id');
-            this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(detail)).then(res => {
+            this.$post('http://www.spn365.cn:4000/getChatContent',qs.stringify(detail)).then(res => {
                
 
 
@@ -193,13 +193,13 @@
 
             this.$refs.form.validate((valid) => {
                 if(valid) {
-                    this.$post('http://127.0.0.1:4000/startChat',qs.stringify(this.form)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/startChat',qs.stringify(this.form)).then(res => {
                         if(res.message == 'OK') {
                             this.chatState = true;
                             this.setCookie('chatState',true);
                             this.setCookie('record_group_id',this.form.id);
 
-                            this.$post('http://127.0.0.1:4000/updatePatientNum',qs.stringify(this.form)).then(res => {
+                            this.$post('http://www.spn365.cn:4000/updatePatientNum',qs.stringify(this.form)).then(res => {
                                 console.log(res)
                             }); 
 
@@ -230,7 +230,7 @@
             detail.send = this.getCookie('username');
             detail.face = this.getCookie('userface');
             if(this.textarea !== '') {
-                this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                     if(res.message == 'OK') {
                         this.chatState = true;
                         this.textarea = '';

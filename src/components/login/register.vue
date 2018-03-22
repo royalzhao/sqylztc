@@ -84,7 +84,7 @@
     },
     methods: {
       init(){
-        this.$fetch('http://127.0.0.1:4000/getAddress').then(res => {
+        this.$fetch('http://www.spn365.cn:4000/getAddress').then(res => {
             console.log(res)
             this.options = res
           });
@@ -93,7 +93,7 @@
         var qs = require('qs');
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
-                this.$post('http://127.0.0.1:4000/register',qs.stringify(this.loginForm)).then(res => {
+                this.$post('http://www.spn365.cn:4000/register',qs.stringify(this.loginForm)).then(res => {
                   console.log(res.message)
                     if(res.message == 'OK') {
                         this.$message({

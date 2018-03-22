@@ -203,7 +203,7 @@
                 this.info.userType = userType
                 console.log(this.info.username)
                 console.log(this.info.userType)
-                this.$post('http://127.0.0.1:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getDoctorInfo',qs.stringify(this.info)).then(res => {
                     console.log(res)
                     this.d_name = res[0].d_name;
                     this.d_technicalTitle = res[0].d_technicalTitle

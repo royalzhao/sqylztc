@@ -31,7 +31,7 @@ export default {
             var qs = require('qs');
             let info = {};
             info.username = this.getCookie('username');
-            this.$post('http://127.0.0.1:4000/getAllChatNum',qs.stringify(info)).then(res => {
+            this.$post('http://www.spn365.cn:4000/getAllChatNum',qs.stringify(info)).then(res => {
                 this.chatNum = res[0].count
                console.log(res)
             });
@@ -95,7 +95,7 @@ export default {
                     var qs = require('qs');
                     let info = {};
                     info.username = this.getCookie('username');
-                    this.$post('http://127.0.0.1:4000/delAllChat',qs.stringify(info)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/delAllChat',qs.stringify(info)).then(res => {
                         
                         this.$message({
                             message: "删除成功",

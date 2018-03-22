@@ -43,7 +43,7 @@
                 var info = {};
                 info.searchValue = this.searchValue
                 //读取列表
-                this.$post('http://127.0.0.1:4000/search',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/search',qs.stringify(info)).then(res => {
                     console.log(res[0])
                     this.toutiaoList = res;
                 });

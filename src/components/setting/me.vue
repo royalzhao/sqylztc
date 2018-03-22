@@ -68,12 +68,12 @@ export default {
             var qs = require('qs');
             
             fd.append ("avatar" , file.file);   //avatar为name，要和后端保持一致
-            this.$post('http://127.0.0.1:4000/upload',fd).then(res => {
+            this.$post('http://www.spn365.cn:4000/upload',fd).then(res => {
                 console.log(res.filePath)
                 this.form.face = res.filePath;
                 this.form.g_img = true;
 
-                this.$post('http://127.0.0.1:4000/updateFace',qs.stringify(this.form)).then(res => {
+                this.$post('http://www.spn365.cn:4000/updateFace',qs.stringify(this.form)).then(res => {
                     if(res.message == 'OK') {
                         this.$message({
                             message:  "修改头像成功！",
@@ -112,7 +112,7 @@ export default {
             this.info.username = user
             this.info.userType = userType
             this.form.userType = userType
-            this.$post('http://127.0.0.1:4000/getUserInfo',qs.stringify(this.info)).then(res => {
+            this.$post('http://www.spn365.cn:4000/getUserInfo',qs.stringify(this.info)).then(res => {
                 console.log(res[0])
                 this.form.name = res[0].name;
                 this.form.phone = res[0].tel;
@@ -147,7 +147,7 @@ export default {
      
         savePassword(){
             var qs = require('qs');
-            this.$post('http://127.0.0.1:4000/updatePassword',qs.stringify(this.form)).then(res => {
+            this.$post('http://www.spn365.cn:4000/updatePassword',qs.stringify(this.form)).then(res => {
                 if(res.message == 'OK') {
                     this.$message({
                         message:  "修改密码成功！",

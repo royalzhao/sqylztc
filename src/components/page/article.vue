@@ -41,7 +41,7 @@
                 type:''   
             }
         },
-        mounted() {
+        created() {
             //初始化
             this.articleInfo();
         },
@@ -52,7 +52,7 @@
                 let info = {};
                 info.id= this.$route.query.id;
                 
-                this.$post('http://127.0.0.1:4000/article',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/article',qs.stringify(info)).then(res => {
                     //console.log(res)
                     this.article = res[0];
                     this.article.title = res[0].n_title;
@@ -61,7 +61,7 @@
                     this.article.time = res[0].n_time;
                     this.article.content = res[0].n_content;
 
-                    this.$post('http://127.0.0.1:4000/updateSeeNum',qs.stringify(info)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/updateSeeNum',qs.stringify(info)).then(res => {
                         console.log(res)
                     }); 
                 });

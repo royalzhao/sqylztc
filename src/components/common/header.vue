@@ -40,7 +40,7 @@
                            
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
-                                    <router-link class="a" to="/setting">
+                                    <router-link class="a" to="/sqztc/setting">
                                         <div class="setting-div">
                                             <i class="iconfont icon-shezhi"></i>
                                             <span class="setting-string"> 设置</span>
@@ -55,9 +55,9 @@
                                 </el-dropdown-item>
                                
                                 <el-dropdown-item divided>
-                                    <div class="setting-div">
+                                    <div class="setting-div" @click="login">
                                         <i class="iconfont icon-084tuichu"></i>
-                                        <span @click="login">
+                                        <span>
                                             <span class="setting-string" v-if="loginState">退出</span>    
                                         
                                             <span class="setting-string" v-else >登录</span>    
@@ -109,7 +109,7 @@
                 var qs = require('qs');
                 let info = {};
                 info.username = this.getCookie('username');
-                this.$post('http://127.0.0.1:4000/getState',qs.stringify(info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getState',qs.stringify(info)).then(res => {
                     console.log(res[0].count)
                     
                     if(res[0].count > 0){
@@ -125,13 +125,13 @@
                 });
             },
             chatList(){
-                this.$router.push("chatList");
+                this.$router.push("/sqztc/chatList");
             },
             blog(){
                 window.location.href="http://royalzhao.github.io";
             },
             login(){
-                this.$router.push("login");
+                this.$router.push("/sqztc/login");
             },
             dll(){
                 if(store.state.show){
