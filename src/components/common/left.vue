@@ -224,7 +224,7 @@
                 this.$router.push({name:'consult'});
             },
             order(){
-                this.$router.push({name:'order'});
+                this.$router.push({name:'myOrderList'});
             }
         },
         watch: {

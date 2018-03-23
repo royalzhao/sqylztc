@@ -22,8 +22,8 @@ export default {
 }
 /*滚动条 start*/  
 ::-webkit-scrollbar {  
-    width: 5px;  
-    height: 4px;  
+    width: 6px;  
+    height: 6px;  
     background-color: #F5F5F5;  
   }  
   /*定义滚动条轨道 内阴影+圆角*/  

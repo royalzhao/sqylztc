@@ -85,7 +85,7 @@
     methods: {
       init(){
         this.$fetch('http://www.spn365.cn:4000/getAddress').then(res => {
-            console.log(res)
+            //console.log(res)
             this.options = res
           });
       },
@@ -93,22 +93,34 @@
         var qs = require('qs');
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
-                this.$post('http://www.spn365.cn:4000/register',qs.stringify(this.loginForm)).then(res => {
-                  console.log(res.message)
-                    if(res.message == 'OK') {
-                        this.$message({
-                            message: "注册成功，请登录！",
-                            type: 'success'
-                        });
-                        this.$router.go(-1);
+              this.$post('http://www.spn365.cn:4000/check',qs.stringify(this.loginForm)).then(res => {
+                  if(res.message == 'OK') {
+                      this.$post('http://www.spn365.cn:4000/register',qs.stringify(this.loginForm)).then(res => {
+                        //console.log(res.message)
+                          if(res.message == 'OK') {
+                              this.$message({
+                                  message: "注册成功，请登录！",
+                                  type: 'success'
+                              });
+                              this.$router.go(-1);
+                          } else {
+                              this.$message({
+                                  message:  "注册失败",
+                                  type:'error'
+                              });
+                              this.$router.go(-1);
+                          }
+                      });
                     } else {
                         this.$message({
-                            message:  "注册失败",
+                            message:  "账号已存在！",
                             type:'error'
                         });
                         this.$router.go(-1);
-                    }
-                });
+                  
+                   }
+              });
+                
             }
         });
         

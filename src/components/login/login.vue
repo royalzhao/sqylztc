@@ -14,7 +14,7 @@
               <el-form-item prop="p_password"> 
                   <el-input class="input" type="password" v-model="loginForm.p_password" placeholder="密码"></el-input>
               </el-form-item>
-              <p>忘记密码？</p>
+              <p class="forget" @click="forget">忘记密码？</p>
               <el-button type="success" class="login-submit" @click="login" round>登录</el-button>
             </el-form>
           </div>
@@ -60,6 +60,10 @@
       };
     },
     methods: {
+      forget(){
+       
+        this.$router.push({path:'/sqztc/forget',query:{updateType:'1'}});
+      },
       login(){
         var qs = require('qs');
         this.$refs.loginForm.validate((valid) => {
@@ -98,8 +102,8 @@
                 });
             }
         });
-      }
-
+      },
+      
       
     }
   };
@@ -145,6 +149,8 @@
       color:#ccc;
       font-size:0.9rem;
     }
-    
+    .forget{
+      cursor: pointer;
+    }
     
 </style>

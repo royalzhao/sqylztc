@@ -1,29 +1,22 @@
 <template>
     <div class="content">
-        <h2>医生登录</h2>
+        <h2>找回密码</h2>
 
         <div class="login-content">
-          <div class="login-face">
-            <img src="../../../static/img/user.jpg" />
-          </div>
+         
           <div class="login-body">
             <el-form ref="loginForm" :model="loginForm" :rules="rules">
               <el-form-item prop="p_tel"> 
                   <el-input class="input" v-model="loginForm.p_tel" placeholder="手机号"></el-input>
               </el-form-item>
               <el-form-item prop="p_password"> 
-                  <el-input class="input" type="password" v-model="loginForm.p_password" placeholder="密码"></el-input>
+                  <el-input class="input" type="password" v-model="loginForm.p_password" placeholder="输入新密码"></el-input>
               </el-form-item>
-              <p class="forget" @click="forget">忘记密码？</p>
-              <el-button type="success" class="login-submit" @click="login" round>登录</el-button>
+              <el-button type="success" class="login-submit" @click="update" round>确认修改</el-button>
             </el-form>
           </div>
         </div>
-        <div class="newUser-box">
-          <router-link class="newUser" to="register">新用户？点击这里注册</router-link><br>
-          <router-link class="newUser" to="login">我是居民</router-link>
-        </div>
-        
+       
     </div>
 </template>
 
@@ -31,7 +24,7 @@
   export default {
     data() {
       var validatePhone = (rule, value, callback) => {
-        var reg=11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+        var reg=11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;
         if (!reg.test(value)) {
           callback(new Error('请输入正确的手机号'));
         } else if(!value) {
@@ -45,7 +38,7 @@
         loginForm:{
           p_tel:'',
           p_password:'',
-          loginState:2
+          updateState:''
         },
          //表单验证
          rules: {
@@ -60,44 +53,46 @@
       };
     },
     methods: {
-      login(){
-        var qs = require('qs');
-        this.$refs.loginForm.validate((valid) => {
-            if(valid) {
-                this.$post('http://www.spn365.cn:4000/login',qs.stringify(this.loginForm)).then(res => {
-                  console.log(res)
-                  if(res.message == 'ERROR') {
-                      this.$message({
-                          message:  "账号或密码错误",
-                          type:'error'
-                      });
-                      
-              
-                     
-                  } else {
-                      this.$message({
-                          message: "登录成功",
-                          type: 'success'
-                      });
+        update(){
+            var qs = require('qs');
+            this.loginForm.updateState= this.$route.query.updateType;
+            this.$refs.loginForm.validate((valid) => {
+                if(valid) {
+                    this.$post('http://127.0.0.1:4000/checkForget',qs.stringify(this.loginForm)).then(res => {
+                        console.log(res)
+                        if(res.message == 'OK') {
+                            this.$post('http://127.0.0.1:4000/forgetPass',qs.stringify(this.loginForm)).then(res => {
+                                if(res.message == 'OK') {
+                                    this.$message({
+                                        message: "修改成功",
+                                        type: 'success'
+                                    });
+                                    
+                                    this.$router.push('/sqztc');
+                                } else {
+                                    this.$message({
+                                        message:  "修改失败",
+                                        type:'error'
+                                    });
+                                    
 
-                     
-                      let expireDays = 1000 * 60 * 60 * 24 * 15;
-                      this.setCookie('username',this.loginForm.p_tel,expireDays);
-                      this.setCookie('userType',this.loginForm.loginState,expireDays);
-                      console.log(res[0].face)
+                                }
+                            });
+                        } else {
+                            this.$message({
+                                message:  "用户不存在",
+                                type:'error'
+                            });
+                            
+
+                        }
+                    });
                     
-                      this.setCookie('userface',res[0].face,expireDays);
+                }
+            });
+        }
 
-                      this.$router.push('/sqztc');
-                      
-                  }
-                });
-            }
-        });
-      },
-      forget(){
-        this.$router.push({path:'/sqztc/forget',query:{updateType:'2'}});
-      }
+      
     }
   };
 </script>
@@ -142,8 +137,6 @@
       color:#ccc;
       font-size:0.9rem;
     }
-    .forget{
-      cursor: pointer;
-    }
+    
     
 </style>

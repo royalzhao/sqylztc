@@ -17,11 +17,14 @@ import setting from '@/components/page/setting'
 import me from '@/components/setting/me'
 import del from '@/components/setting/del'
 import consult from '@/components/page/consult'
-import order from '@/components/page/order'
+
 import article from '@/components/page/article'
 import chatContent from '@/components/page/chatContent'
 import search from '@/components/page/search'
 import orderList from '@/components/page/orderList'
+import forget from '@/components/page/forget'
+import addOrder from '@/components/form/addOrder'
+import myOrderList from '@/components/page/myOrderList'
 
 
 Vue.use(Router)
@@ -64,11 +67,7 @@ const routes =  [
           name:'consult',
           component:consult
         },
-        {
-          path:'/sqztc/order',
-          name:'order',
-          component:order
-        },
+        
         {
           path:'/sqztc/article',
           component:article
@@ -82,6 +81,17 @@ const routes =  [
           name:'orderList',
           component:orderList
         },
+        {
+          path:'/sqztc/addOrder',
+          name:'addOrder',
+          component:addOrder
+        },
+        {
+          path:'/sqztc/myOrderList',
+          name:'myOrderList',
+          component:myOrderList
+        },
+
         {
           path:'/sqztc/search',
           component:search,
@@ -99,6 +109,11 @@ const routes =  [
       component: register,
       name: '注册'
      
+    },
+    {
+      path:'/sqztc/forget',
+      name:'forget',
+      component:forget
     },{
       path: '/sqztc/login',
       component: login,//登录页
@@ -142,6 +157,8 @@ router.beforeEach((to, from, next) => {
     delCookie('userType');
     next()
   }else if(to.path.startsWith('/sqztc/register')){
+    next()
+  }else if(to.path.startsWith('/sqztc/forget')){
     next()
   }else if(to.path.startsWith('/sqztc/DLogin')){
     delCookie('username');

@@ -95,6 +95,7 @@ export default {
                     var qs = require('qs');
                     let info = {};
                     info.username = this.getCookie('username');
+                    info.userType =  this.getCookie('userType')
                     this.$post('http://www.spn365.cn:4000/delAllChat',qs.stringify(info)).then(res => {
                         
                         this.$message({
