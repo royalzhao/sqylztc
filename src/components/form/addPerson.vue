@@ -58,7 +58,7 @@
                         {required: true, message: '请输入姓名', trigger: 'blur'}
                     ],
                     age: [
-                        {required: true, message: '请输入年龄', trigger: 'blur'}
+                        {required: true, message: '请输入年龄(数字)', trigger: 'blur'}
                     ],
                     height: [
                         {required: true, message: '请输入身高', trigger: 'blur'}

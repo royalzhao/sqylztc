@@ -4,20 +4,26 @@
             <el-tab-pane label="健康头条" name="first">
                 <div class="article_wrap" v-for="item in toutiaoList">
                     <div class="acticle" @click="toutiaoDetail(item.n_id)">
-                        <div class="acticle_img">
-                            <img :src="item.n_img" alt="健康头条图片">
-                        </div>
-                        <div class="acticle_content">
-                            <h3>{{item.n_title}}</h3>
-                            <p>
-                                {{item.n_abstract}}
-                            </p>
-                            <div class="acticle_info">
-                                <span> 浏览（{{item.n_see_num}}）</span>
-                                <span> 时间（{{item.n_time}}）</span>
-                               
-                            </div>
-                        </div>
+                        <el-row :gutter="20">
+                            <el-col :xs="24" :sm="8" :md="8" :lg="8">
+                                <div class="acticle_img">
+                                    <img :src="item.n_img" alt="健康头条图片">
+                                </div>
+                            </el-col>
+                            <el-col :xs="24" :sm="16" :md="16" :lg="16">
+                                <div class="acticle_content">
+                                    <h3>{{item.n_title}}</h3>
+                                    <p>
+                                        {{item.n_abstract}}
+                                    </p>
+                                    <div class="acticle_info">
+                                        <span> 浏览（{{item.n_see_num}}）</span>
+                                        <span> 时间（{{item.n_time}}）</span>
+                                        
+                                    </div>
+                                </div>
+                            </el-col>
+                        </el-row>
                     </div>
                 </div>
                 <span v-if="more1">
@@ -31,20 +37,26 @@
             <el-tab-pane label="医疗知识" name="second">
                 <div class="article_wrap" v-for="item in zhishiList">
                     <div class="acticle" @click="yiliaoDetail(item.n_id)">
-                        <div class="acticle_img">
-                            <img :src="item.n_img" alt="医疗知识图片">
-                        </div>
-                        <div class="acticle_content">
-                            <h3>{{item.n_title}}</h3>
-                            <p>
-                                {{item.n_abstract}}
-                            </p>
-                            <div class="acticle_info">
-                                <span> 浏览（{{item.n_see_num}}）</span>
-                                <span> 时间（{{item.n_time}}）</span>
-                                
-                            </div>
-                        </div>
+                        <el-row :gutter="20">
+                            <el-col :xs="24" :sm="8" :md="8" :lg="8">
+                                <div class="acticle_img">
+                                    <img :src="item.n_img" alt="医疗知识图片">
+                                </div>
+                            </el-col>
+                            <el-col :xs="24" :sm="16" :md="16" :lg="16">
+                                <div class="acticle_content">
+                                    <h3>{{item.n_title}}</h3>
+                                    <p>
+                                        {{item.n_abstract}}
+                                    </p>
+                                    <div class="acticle_info">
+                                        <span> 浏览（{{item.n_see_num}}）</span>
+                                        <span> 时间（{{item.n_time}}）</span>
+                                        
+                                    </div>
+                                </div>
+                            </el-col>
+                        </el-row>
                     </div>
                 </div>
                 
@@ -206,19 +218,21 @@
     overflow: auto;
 }
 .article_wrap .acticle{
-    clear: both;
+    clear: both;    
     cursor: pointer;
-    height: 120px;
+    height: auto;
+    margin-bottom: 10px;
 }
 .article_wrap .acticle .acticle_img{
     float: left;
     border: 1px solid #ccc;
     padding: 2px;
-    margin: 5px;
     border-radius: 3px;
-    width: 200px;
+    width: 100%;
     height: 120px;
     margin-right: 10px;
+    box-sizing: border-box;
+    
 }
 .article_wrap .acticle .acticle_img img{
     width: 100%;

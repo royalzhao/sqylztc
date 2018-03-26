@@ -55,3 +55,20 @@ body{
 .el-dropdown-menu__item a:hover{
     color: #32BA58;
 }
+
+@media only screen and (max-width:600px ) {
+	.el-message-box{
+        width: 70%;
+    }
+    .el-message{
+        min-width: 70%;
+    }
+    .dialogMessage{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .el-dialog{
+        width: 100%;
+        margin-top: 10px;
+    }
+}

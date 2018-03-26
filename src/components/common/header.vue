@@ -14,7 +14,7 @@
                     </div>
                     
                 </el-col>   
-                <el-col :xs="14" :sm="8" :md="8" :lg="8">
+                <el-col :xs="12" :sm="8" :md="8" :lg="8">
                     <div class="search-box">
                         <el-input
                         placeholder="请输入内容"
@@ -24,7 +24,7 @@
                         </el-input>
                     </div>
                 </el-col>
-                <el-col class="set-box" :xs="8" :sm="8" :md="8" :lg="8">
+                <el-col class="set-box" :xs="10" :sm="8" :md="8" :lg="8">
                     <span @click="chatList">
                         <el-badge v-if="chatWacth" class="item">
                             <i class="el-icon-bell"></i>

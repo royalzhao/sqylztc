@@ -3,20 +3,27 @@
         <h3>搜索结果</h3>
         <div class="article_wrap" v-for="item in toutiaoList">
             <div class="acticle" @click="toutiaoDetail(item.id)">
-                <div class="acticle_img">
-                    <img :src="item.n_img" alt="健康头条图片">
-                </div>
-                <div class="acticle_content">
-                    <h3>{{item.n_title}}</h3>
-                    <p>
-                        {{item.n_abstract}}
-                    </p>
-                    <div class="acticle_info">
-                        <span> 浏览（{{item.n_see_num}}）</span>
-                        <span> 时间（{{item.n_time}}）</span>
-                       
-                    </div>
-                </div>
+                <el-row :gutter="20">
+                    <el-col :xs="24" :sm="8" :md="8" :lg="8">
+                        <div class="acticle_img">
+                            <img :src="item.n_img" alt="搜索图片">
+                        </div>
+                    </el-col>
+                    <el-col :xs="24" :sm="16" :md="16" :lg="16">
+                        <div class="acticle_content">
+                            <h3>{{item.n_title}}</h3>
+                            <p>
+                                {{item.n_abstract}}
+                            </p>
+                            <div class="acticle_info">
+                                <span> 浏览（{{item.n_see_num}}）</span>
+                                <span> 时间（{{item.n_time}}）</span>
+                                
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+               
             </div>
         </div>
     </div>
@@ -60,20 +67,21 @@
     clear: both;
     cursor: pointer;
     height: 120px;
+    margin-bottom: 10px;
 }
 .article_wrap .acticle .acticle_img{
     float: left;
     border: 1px solid #ccc;
     padding: 2px;
-    margin: 5px;
     border-radius: 3px;
-    width: 200px;
+    width: 100%;
+    box-sizing: border-box;
     height: 120px;
     margin-right: 10px;
 }
 .article_wrap .acticle .acticle_img img{
     width: 100%;
-    height: 120px;
+    height: 100%;
 }
 .article_wrap .acticle .acticle_content{
     text-align: left;

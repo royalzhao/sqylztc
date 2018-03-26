@@ -136,6 +136,7 @@
     }
     .newUser-box{
       margin-top:3rem;
+      margin-bottom:3rem;
     }
     .newUser{
       text-decoration:none;

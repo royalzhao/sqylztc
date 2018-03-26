@@ -58,10 +58,10 @@
             this.loginForm.updateState= this.$route.query.updateType;
             this.$refs.loginForm.validate((valid) => {
                 if(valid) {
-                    this.$post('http://127.0.0.1:4000/checkForget',qs.stringify(this.loginForm)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/checkForget',qs.stringify(this.loginForm)).then(res => {
                         console.log(res)
                         if(res.message == 'OK') {
-                            this.$post('http://127.0.0.1:4000/forgetPass',qs.stringify(this.loginForm)).then(res => {
+                            this.$post('http://www.spn365.cn:4000/forgetPass',qs.stringify(this.loginForm)).then(res => {
                                 if(res.message == 'OK') {
                                     this.$message({
                                         message: "修改成功",

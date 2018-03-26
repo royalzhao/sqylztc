@@ -67,69 +67,71 @@
         </div>
         <div id="modal"></div>
         <div class="left leftXs hidden-sm-and-up" id="leftXs" >
-            
-            <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
-                <el-menu-item index="healthy" @click="healthy">
-                    <span class="sb-icon"><i class="iconfont icon-toutiao"></i></span>
-                    <span class="sb-cn">健康头条</span>
-                </el-menu-item>
-                <span v-if="userType == 1">
-                    <el-menu-item index="family" @click = "family">
-                        <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
-                        <span class="sb-cn">家庭成员</span>
+            <div>
+                <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" unique-opened router>
+                    <el-menu-item index="healthy" @click="healthy">
+                        <span class="sb-icon"><i class="iconfont icon-toutiao"></i></span>
+                        <span class="sb-cn">健康头条</span>
                     </el-menu-item>
-                    <el-menu-item index="chatList" @click="chatList">
-                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
-                        <span class="sb-cn">咨询记录</span>
-                    </el-menu-item>
-                </span>
-                
-                <span v-else>
-                    <el-menu-item index="chatList" @click = "chatList">
-                        <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
-                        <span class="sb-cn">查看留言</span>
-                    </el-menu-item>
-                    <el-menu-item index="orderList" @click="orderList">
-                        <span class="sb-icon"><i class="iconfont icon-yuyue"></i></span>
-                        <span class="sb-cn">查看预约</span>
-                    </el-menu-item>
-                </span>
-            </el-menu>
-            <div class="doctor">
-                <div class="doctor-head">
-                    <i class="iconfont icon-yisheng"></i>
-                    责任医师
-                </div>
-                <div class="doctor-body">
-                    <div class="body-content">
-                        <div class="body-img">
-                            <img :src="d_face" alt="">
-                        </div>
-                        <div class="body-info">
-                            <p style="margin-top: 0px;">姓名：{{d_name}}</p> 
-                            <p>职称：{{d_technicalTitle}}</p> 
-                            <p>居委：{{d_committee}}</p> 
-                            <p>电话：{{d_tel}}</p> 
-                            <p>服务患者：{{d_patientNum}}</p> 
-                            
-                        </div>
-                    </div>
-                    <div class="doctor-abstract">
-                        <p style="margin-top:0;">简介:</p>
-                        <p>
-                            {{d_abstract}}
-                        </p>
-                    </div>
-                    <div class="button" v-if="userType == 1">
-                        <el-button class="talk" @click="talk">咨询</el-button>
-                        <el-button class="order" @click="order">预约</el-button>
-                    </div>
-                    <div class="button" v-else>
-                        <el-button class="update" @click="update">编辑个人信息</el-button>
-                    </div>
+                    <span v-if="userType == 1">
+                        <el-menu-item index="family" @click = "family">
+                            <span class="sb-icon"><i class="iconfont icon-kehuqunzu"></i></span>
+                            <span class="sb-cn">家庭成员</span>
+                        </el-menu-item>
+                        <el-menu-item index="chatList" @click="chatList">
+                            <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                            <span class="sb-cn">咨询记录</span>
+                        </el-menu-item>
+                    </span>
                     
+                    <span v-else>
+                        <el-menu-item index="chatList" @click = "chatList">
+                            <span class="sb-icon"><i class="iconfont icon-jilu"></i></span>
+                            <span class="sb-cn">查看留言</span>
+                        </el-menu-item>
+                        <el-menu-item index="orderList" @click="orderList">
+                            <span class="sb-icon"><i class="iconfont icon-yuyue"></i></span>
+                            <span class="sb-cn">查看预约</span>
+                        </el-menu-item>
+                    </span>
+                </el-menu>
+                <div class="doctor">
+                    <div class="doctor-head">
+                        <i class="iconfont icon-yisheng"></i>
+                        责任医师
+                    </div>
+                    <div class="doctor-body">
+                        <div class="body-content">
+                            <div class="body-img">
+                                <img :src="d_face" alt="">
+                            </div>
+                            <div class="body-info">
+                                <p style="margin-top: 0px;">姓名：{{d_name}}</p> 
+                                <p>职称：{{d_technicalTitle}}</p> 
+                                <p>居委：{{d_committee}}</p> 
+                                <p>电话：{{d_tel}}</p> 
+                                <p>服务患者：{{d_patientNum}}</p> 
+                                
+                            </div>
+                        </div>
+                        <div class="doctor-abstract">
+                            <p style="margin-top:0;">简介:</p>
+                            <p>
+                                {{d_abstract}}
+                            </p>
+                        </div>
+                        <div class="button" v-if="userType == 1">
+                            <el-button class="talk" @click="talk">咨询</el-button>
+                            <el-button class="order" @click="order">预约</el-button>
+                        </div>
+                        <div class="button" v-else>
+                            <el-button class="update" @click="update">编辑个人信息</el-button>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
     
@@ -263,6 +265,7 @@
         background: #FAFAFA;
         height: 100%;
         box-shadow:3px 0px 5px 1px #ccc;
+        overflow: auto;
     }
     #modal{
         position: fixed;
@@ -287,6 +290,7 @@
     .doctor{
         width: 100%;
         margin-top: 20px;
+        margin-bottom: 80px;
     }
     .doctor .doctor-head{
         background: rgba(50, 186, 88, 0.58);

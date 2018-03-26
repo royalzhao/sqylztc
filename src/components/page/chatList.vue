@@ -49,10 +49,10 @@ export default {
             this.info.username = user
             let userType = this.getCookie('userType');
             if(userType == '1'){
-                this.$post('http://127.0.0.1:4000/getGroupList',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getGroupList',qs.stringify(this.info)).then(res => {
                     //console.log(typeof(res[0].state))
                     var a = res;
-                    this.$post('http://127.0.0.1:4000/getGroupState',qs.stringify(this.info)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/getGroupState',qs.stringify(this.info)).then(res => {
                         console.log(res)
                         var _this = res;
                         for(var j = 0;j<_this.length;j++){
@@ -72,10 +72,10 @@ export default {
                 });
             }else if(userType == '2'){
                 console.log(2)
-                this.$post('http://127.0.0.1:4000/getDoctorGroupList',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getDoctorGroupList',qs.stringify(this.info)).then(res => {
                     //console.log(typeof(res[0].state))
                     var a = res;
-                    this.$post('http://127.0.0.1:4000/getDoctorGroupState',qs.stringify(this.info)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/getDoctorGroupState',qs.stringify(this.info)).then(res => {
                         console.log(res)
                         var _this = res;
                         for(var j = 0;j<_this.length;j++){

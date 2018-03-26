@@ -94,31 +94,33 @@
         this.$refs.loginForm.validate((valid) => {
             if(valid) {
               this.$post('http://www.spn365.cn:4000/check',qs.stringify(this.loginForm)).then(res => {
+                //console.log(res.message)
                   if(res.message == 'OK') {
-                      this.$post('http://www.spn365.cn:4000/register',qs.stringify(this.loginForm)).then(res => {
-                        //console.log(res.message)
-                          if(res.message == 'OK') {
-                              this.$message({
-                                  message: "注册成功，请登录！",
-                                  type: 'success'
-                              });
-                              this.$router.go(-1);
-                          } else {
-                              this.$message({
-                                  message:  "注册失败",
-                                  type:'error'
-                              });
-                              this.$router.go(-1);
-                          }
+                    //alert(1)
+                    this.$post('http://www.spn365.cn:4000/register',qs.stringify(this.loginForm)).then(res => {
+                      //console.log(res.message)
+                        if(res.message == 'OK') {
+                            this.$message({
+                                message: "注册成功，请登录！",
+                                type: 'success'
+                            });
+                            this.$router.go(-1);
+                        } else {
+                            this.$message({
+                                message:  "注册失败",
+                                type:'error'
+                            });
+                            this.$router.go(-1);
+                        }
+                    });
+                  } else {
+                      this.$message({
+                          message:  "账号已存在！",
+                          type:'error'
                       });
-                    } else {
-                        this.$message({
-                            message:  "账号已存在！",
-                            type:'error'
-                        });
-                        this.$router.go(-1);
-                  
-                   }
+                      this.$router.go(-1);
+                
+                  }
               });
                 
             }
@@ -167,6 +169,7 @@
     }
     .newUser-box{
       margin-top:3rem;
+      margin-bottom:3rem;
     }
     .newUser{
       text-decoration:none;

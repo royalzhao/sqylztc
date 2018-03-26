@@ -117,7 +117,7 @@
                 var qs = require('qs');
                 let user = this.getCookie('username');
                 this.info.username = user
-                this.$post('http://127.0.0.1:4000/getMyOrderInfo',qs.stringify(this.info)).then(res => {
+                this.$post('http://www.spn365.cn:4000/getMyOrderInfo',qs.stringify(this.info)).then(res => {
                     this.familyList = res;
                     this.listLoading = false;
                 });
@@ -133,7 +133,7 @@
                 //console.log(qs.stringify(this.map))
                 this.$confirm('确定取消该预约吗？')
                     .then(_ => {
-                        this.$post('http://127.0.0.1:4000/cancelOrder',qs.stringify(this.map)).then(res => {
+                        this.$post('http://www.spn365.cn:4000/cancelOrder',qs.stringify(this.map)).then(res => {
                             this.myOrderInfo()
                          });
                     })

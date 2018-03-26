@@ -5,8 +5,12 @@
                 聊天记录
             </span>
             <span class="title_right">
+
                 <span class="del" @click="del">
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-delete" style="color:red;"></i>
+                </span>
+                <span class="info" @click="dialogVisible = true">
+                        <i class="iconfont icon-jilu"></i>
                 </span>
                 <span class="refresh" @click="refresh">
                     <i class="iconfont icon-icon-refresh"></i>
@@ -14,6 +18,44 @@
             </span>
             
         </div>
+        <el-dialog
+            class="dialogMessage"
+            title="患者信息"
+            :visible.sync="dialogVisible"
+            :before-close="handleClose">
+            <span style="margin-top:10px;">
+                <el-form  label-width="80px" :model="form">
+                    <el-form-item label="姓名">
+                        {{form.name}}
+                    </el-form-item>
+                    <el-form-item label="年龄">
+                        {{form.age}}
+                    </el-form-item>
+                    <el-form-item label="性别" prop="sex">
+                        <el-radio-group v-model="form.sex">
+                            <el-radio label="1">男</el-radio>
+                            <el-radio label="0">女</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="身高">
+                        {{form.height}}
+                    </el-form-item>
+                    <el-form-item label="体重">
+                        {{form.weight}}
+                    </el-form-item>
+                    <el-form-item label="职业">
+                        {{form.profession}}
+                    </el-form-item>
+                    <el-form-item label="病史">
+                        {{form.history}}
+                    </el-form-item>
+                    
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
         <div class="content" id="content">
             <div v-for="item in chatContent" style="margin:5px 0;">
                 <div class="left" v-bind:class="{ right: item.classState }">
@@ -53,7 +95,17 @@
         radio: '1',
         steps:true,
         chatState:false,
-        textarea:''
+        textarea:'',
+        dialogVisible: false,
+        form:{
+            name:'',
+            age:'',
+            height:'',
+            weight:'',
+            history:'',
+            sex:'',
+            profession:'',
+        }
       };
     },
     created(){
@@ -74,36 +126,58 @@
        
     },
     methods: {
-      
-      chat(){
-        var qs = require('qs');
-        let info = {};
-        info.record_group_id= this.$route.query.record_group_id;
-        info.receiver= this.getCookie('username');
-        this.$post('http://127.0.0.1:4000/getChatContent',qs.stringify(info)).then(res => {
-            
-
-
-             for(var i = 0;i<res.length;i++){
-                 if(res[i].send == this.getCookie('username')){
-                     res[i].classState = true;
-                 }else{
-                     res[i].classState = false;
-                 }
+        handleClose(done) {
+            this.$confirm('确认关闭？')
+            .then(_ => {
+                done();
+            })
+            .catch(_ => {});
+        },
+        chat(){
+            var qs = require('qs');
+            let info = {};
+            info.record_group_id= this.$route.query.record_group_id;
+            info.receiver= this.getCookie('username');
+            this.$post('http://www.spn365.cn:4000/getChatContent',qs.stringify(info)).then(res => {
                 
-                 
-             }
-            this.chatContent = res;
-            console.log(this.chatContent)
-            
 
 
-           // console.log(res)
-         });
-        this.$post('http://127.0.0.1:4000/changeState',qs.stringify(info)).then(res => {
-            
-            console.log(res.message)
-         });
+                for(var i = 0;i<res.length;i++){
+                    if(res[i].send == this.getCookie('username')){
+                        res[i].classState = true;
+                    }else{
+                        res[i].classState = false;
+                    }
+                    
+                    
+                }
+                this.chatContent = res;
+                console.log(this.chatContent)
+                
+
+
+            // console.log(res)
+            });
+            this.$post('http://www.spn365.cn:4000/changeState',qs.stringify(info)).then(res => {
+                
+                console.log(res.message)
+            });
+            this.$post('http://www.spn365.cn:4000/getPatientInfo',qs.stringify(info)).then(res => {
+                
+                console.log(res[0].chatState)
+                if(res[0].chatState == '1'){
+                    this.form.name = '匿名用户'
+                }else{
+                    this.form.name = res[0].name;
+                }
+                
+                this.form.age = res[0].age;
+                this.form.height = res[0].height;
+                this.form.weight = res[0].weight;
+                this.form.history = res[0].history;
+                this.form.sex = res[0].sex;
+                this.form.profession = res[0].profession;
+            });
         
         },
         
@@ -118,7 +192,7 @@
                 detail.face = this.getCookie('userface');
                 console.log(detail.content)
                 if(this.textarea !== '') {
-                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
                             this.chatState = true;
                             this.textarea = '';
@@ -148,7 +222,7 @@
                 detail.face = this.getCookie('userface');
                 console.log(detail)
                 if(this.textarea !== '') {
-                    this.$post('http://127.0.0.1:4000/send',qs.stringify(detail)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
                             this.chatState = true;
                             this.textarea = '';
@@ -184,7 +258,7 @@
             del.userType =  this.getCookie('userType')
             this.$confirm('确定要删除此聊天记录吗？')
                 .then(_ => {
-                    this.$post('http://127.0.0.1:4000/delChatRecord',qs.stringify(del)).then(res => {
+                    this.$post('http://www.spn365.cn:4000/delChatRecord',qs.stringify(del)).then(res => {
                         if(res.message == 'OK') {
                             this.$message({
                                 message:  "删除成功！",
@@ -217,6 +291,10 @@
     float: right;
     margin-top: 5px;
     
+}
+.title_right .info{
+    color: #e99a06;
+    cursor: pointer;
 }
 .refresh{
     color: #32BA58;
