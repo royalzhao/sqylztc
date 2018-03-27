@@ -2,7 +2,7 @@
     <div class="search">
         <h3>搜索结果</h3>
         <div class="article_wrap" v-for="item in toutiaoList">
-            <div class="acticle" @click="toutiaoDetail(item.id)">
+            <div class="acticle" @click="toutiaoDetail(item.n_id)">
                 <el-row :gutter="20">
                     <el-col :xs="24" :sm="8" :md="8" :lg="8">
                         <div class="acticle_img">
@@ -11,7 +11,8 @@
                     </el-col>
                     <el-col :xs="24" :sm="16" :md="16" :lg="16">
                         <div class="acticle_content">
-                            <h3>{{item.n_title}}</h3>
+                            <h3>{{item.n_title}}
+                            </h3>
                             <p>
                                 {{item.n_abstract}}
                             </p>
@@ -43,7 +44,13 @@
             this.getSearchInfo();
         },
         methods: {
-            
+            toutiaoDetail(id) {
+               
+                if(id !== undefined) {
+                    
+                    this.$router.push({path:'/sqztc/article',query:{id:id}});
+                }
+            },
             getSearchInfo(){
                 var qs = require('qs');
                 this.searchValue = this.$route.params.info
@@ -51,7 +58,7 @@
                 info.searchValue = this.searchValue
                 //读取列表
                 this.$post('http://www.spn365.cn:4000/search',qs.stringify(info)).then(res => {
-                    console.log(res[0])
+                    //console.log(res[0])
                     this.toutiaoList = res;
                 });
             }

@@ -42,4 +42,20 @@ export default {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
     background-color:rgb(107, 230, 152);  
   }      */
+  @media only screen and (max-width:600px ) {
+	.el-message-box{
+        width: 70%;
+    }
+    .el-message{
+        min-width: 70%;
+    }
+    .dialogMessage{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .el-dialog{
+        width: 100%;
+        margin-top: 10px;
+    }
+}
 </style>

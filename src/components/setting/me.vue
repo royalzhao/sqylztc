@@ -2,7 +2,7 @@
     <div class="me">
         <h4>个人信息</h4>
         <el-form :label-position="position" label-width="80px" :model="form">
-            <el-form-item label="缩略图" prop="face">
+            <el-form-item label="头像" prop="face">
                 <el-upload class="avatar-uploader" action="" :http-request="uploadImg" :show-file-list="false" :before-upload="beforeAvatarUpload">
                 <img v-if="form.g_img" :src="form.face" class="avatar" style="max-width:300px;">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>

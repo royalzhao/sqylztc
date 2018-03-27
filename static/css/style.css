@@ -1,74 +1,74 @@
 body{
-    font-size: 16px;
-    font-size: 1rem;
-    background: #FAFAFA;
+    font-size: 16px !important;
+    font-size: 1rem !important;
+    background: #FAFAFA !important;
 }
 
 .el-input__inner, .el-checkbox__inner{
-    border-radius: 18px;
+    border-radius: 18px !important;
 }
 .addPersonContent .el-input__inner{
-    border-radius: 5px;
+    border-radius: 5px !important;
 }
 .header .header-content .search-box .el-input__inner{
-    background: transparent;
-    border: 0;
-    color: #444;
-    height: 34px;
-    margin-top: 7px;
-    transition: all 0.45s;
-    color: #fff;
+    background: transparent !important;
+    border: 0 !important;
+    color: #444 !important;
+    height: 34px !important;
+    margin-top: 7px !important;
+    transition: all 0.45s !important;
+    color: #fff !important;
 }
 .header .header-content .search-box:hover .el-input__inner{
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3) !important;
 }
 .header .header-content .search-box .el-input__inner::placeholder{
-    color: #cef6d4;
+    color: #cef6d4 !important;
 }
 .header .header-content .search-box .el-input__prefix,.header .header-content .search-box .el-input__suffix{
-    color: #cef6d4;
+    color: #cef6d4 !important;
 }
 .header .header-content .search-box .el-input__prefix,.header .header-content .search-box .el-input__suffix{
     top:4px;
 }
 .el-tabs__item.is-active{
-    color: #32BA58;
+    color: #32BA58 !important;
 }
 .el-tabs__active-bar{
-    background-color: #32BA58;
+    background-color: #32BA58 !important;
 }
 .el-tabs__item:hover{
-    color: #32BA58;
+    color: #32BA58 !important;
 }
 .el-menu-item.is-active{
-    color: #32BA58;
+    color: #32BA58 !important;
 }
 .el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
-    background-color:rgba(50, 186, 88, 0.1);
-    color: #32BA58;
+    background-color:rgba(50, 186, 88, 0.1) !important;
+    color: #32BA58 !important;
 
 }
 .el-dropdown-menu__item a{
-    color: #666;
-    text-decoration: none;
+    color: #666 !important;
+    text-decoration: none !important;
 }
 .el-dropdown-menu__item a:hover{
-    color: #32BA58;
+    color: #32BA58 !important;
 }
 
 @media only screen and (max-width:600px ) {
 	.el-message-box{
-        width: 70%;
+        width: 70% !important;
     }
     .el-message{
-        min-width: 70%;
+        min-width: 70% !important;
     }
     .dialogMessage{
-        width: 80%;
-        margin: 0 auto;
+        width: 80% !important;
+        margin: 0 auto !important;
     }
     .el-dialog{
-        width: 100%;
-        margin-top: 10px;
+        width: 100% !important;
+        margin-top: 10px !important;
     }
 }
