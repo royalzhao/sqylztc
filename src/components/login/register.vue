@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="newUser-box">
-          <router-link class="newUser" to="/login">已经有账号了？点击登录</router-link>
+          <router-link class="newUser" to="/sqztc/login">已经有账号了？点击登录</router-link>
         </div>
         
     </div>

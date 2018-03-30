@@ -71,26 +71,23 @@ export default {
                     });
                 });
             }else if(userType == '2'){
-                console.log(2)
                 this.$post('http://www.spn365.cn:4000/getDoctorGroupList',qs.stringify(this.info)).then(res => {
                     //console.log(typeof(res[0].state))
                     var a = res;
                     this.$post('http://www.spn365.cn:4000/getDoctorGroupState',qs.stringify(this.info)).then(res => {
-                        console.log(res)
+                        //console.log(res)
                         var _this = res;
-                        for(var j = 0;j<_this.length;j++){
-                            for(var i = 0;i<a.length;i++){
+                        for(var i = 0;i<_this.length;i++){
+                            for(var j = 0;j<a.length;j++){
                             
-                                if(_this[j].record_group_id == a[i].record_group_id){
-                                    a[i].state = _this[j].state;
-                                    continue;
-                                }else{
-                                    a[i].state = 'true'
+                                if(_this[i].record_group_id == a[j].record_group_id){
+                                    a[j].state = _this[i].state;
                                 }
                             }
                         }
                         this.chatList = a
-                        console.log(this.chatList[0])
+                        //console.log(a)
+                
                     });
                 });
             }

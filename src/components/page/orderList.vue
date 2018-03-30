@@ -48,9 +48,9 @@
             >
                 <template slot-scope="scope">
                     <el-tag
-                        :type="scope.row.order_cancel === true ? 'danger' : 'info'"
+                        :type="scope.row.order_cancel === 'true' ? 'info' : 'Warning'"
                         close-transition>
-                        <span v-if="scope.row.order_cancel == false">预约中</span>
+                        <span v-if="scope.row.order_cancel == 'false'">预约中</span>
                         <span v-else>患者取消</span>
                     </el-tag>
                 </template>
