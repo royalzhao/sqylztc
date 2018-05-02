@@ -107,12 +107,16 @@
     },
     mounted(){
         this.init()
+        setInterval(this.chat, 1000);
     },
     filters:{
         replace (input){
             return input.replace(/%3A/g, ':')
         }
        
+    },
+    beforeDestory(){
+        clearInterval(this.chat)
     },
     watch: {
         chatContent: function(){
@@ -127,10 +131,10 @@
         init(){
             
             let chatState = this.getCookie('chatState');
-            console.log(chatState)
+           // console.log(chatState)
             if(chatState=='true'){
                 this.chatState = true
-                console.log(true)
+               // console.log(true)
 
                 this.chat()
             }else{
@@ -147,7 +151,7 @@
                    
                 });
                 this.$post('http://www.spn365.cn:4000/getFamilyInfo',qs.stringify(this.info)).then(res => {
-                    console.log(res)
+                   // console.log(res)
                     this.familyList = res;
                 
                 });
@@ -199,7 +203,7 @@
                             this.setCookie('record_group_id',this.form.id);
 
                             this.$post('http://www.spn365.cn:4000/updatePatientNum',qs.stringify(this.form)).then(res => {
-                                console.log(res)
+                               // console.log(res)
                             }); 
 
                         } else {

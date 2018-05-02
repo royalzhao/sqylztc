@@ -110,6 +110,7 @@
     },
     created(){
         this.chat()
+        setInterval(this.chat, 1000);
     },
     watch: {
         chatContent: function(){
@@ -124,6 +125,9 @@
             return input.replace(/%3A/g, ':')
         }
        
+    },
+    beforeDestory(){
+        clearInterval(this.chat)
     },
     methods: {
         handleClose(done) {
@@ -152,7 +156,7 @@
                     
                 }
                 this.chatContent = res;
-                console.log(this.chatContent)
+                //console.log(this.chatContent)
                 
 
 
@@ -160,11 +164,11 @@
             });
             this.$post('http://www.spn365.cn:4000/changeState',qs.stringify(info)).then(res => {
                 
-                console.log(res.message)
+                //console.log(res.message)
             });
             this.$post('http://www.spn365.cn:4000/getPatientInfo',qs.stringify(info)).then(res => {
                 
-                console.log(res[0].chatState)
+                //console.log(res[0].chatState)
                 if(res[0].chatState == '1'){
                     this.form.name = '匿名用户'
                 }else{
@@ -190,7 +194,7 @@
                 detail.receiver = this.getCookie('d_tel');
                 detail.send = this.getCookie('username');
                 detail.face = this.getCookie('userface');
-                console.log(detail.content)
+                //console.log(detail.content)
                 if(this.textarea !== '') {
                     this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
@@ -220,7 +224,7 @@
                 detail.receiver = this.$route.query.send; 
                 detail.send = this.getCookie('username');
                 detail.face = this.getCookie('userface');
-                console.log(detail)
+                //console.log(detail)
                 if(this.textarea !== '') {
                     this.$post('http://www.spn365.cn:4000/send',qs.stringify(detail)).then(res => {
                         if(res.message == 'OK') {
